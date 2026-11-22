@@ -130,12 +130,6 @@
 
 /* Attach the markers below the existing scoreboard groups */
 
-#stage .score-group.team-a,
-#stage .score-group.team-b {
-  position: relative;
-  overflow: visible;
-}
-
 #stage .p32-indicator {
   position: absolute;
   top: 100%;
@@ -195,4 +189,34 @@
   .p32-teams {
     grid-template-columns: 1fr;
   }
+}
+
+
+/* =========================================
+   Phase 3.2 — Scoreboard Layout Fix
+========================================= */
+
+/* 既存のスコアボード配置を維持 */
+#stage .score-group.team-a,
+#stage .score-group.team-b {
+  overflow: visible;
+}
+
+/* マップ勝利インジケーター */
+#stage .p32-indicator {
+  position: absolute;
+  top: 100%;
+  z-index: 10;
+}
+
+/* 青側 */
+#stage .p32-indicator-a {
+  left: auto;
+  right: 0;
+}
+
+/* 赤側 */
+#stage .p32-indicator-b {
+  left: 0;
+  right: auto;
 }
