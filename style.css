@@ -1,20 +1,32 @@
 
 :root {
-  --a: #35d3e3;
-  --b: #ff5369;
-  --panel: #0b111c;
-  --panel-soft: rgba(11,17,28,.95);
+  --team-a: #35d3e3;
+  --team-b: #ff5369;
+  --panel: rgba(8, 14, 24, .96);
+
+  /* OBSで調整する位置 */
+  --score-top: 42px;
+  --score-left: 410px;
+  --score-right: 410px;
+  --score-width: 390px;
+
+  --roster-top: 390px;
+  --roster-width: 305px;
+  --roster-gap: 4px;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
+  margin: 0;
   width: 100%;
   height: 100%;
-  margin: 0;
   overflow: hidden;
   background: transparent !important;
+  color: white;
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #fff;
 }
 
 #stage {
@@ -27,161 +39,153 @@ html, body {
   pointer-events: none;
 }
 
-/* 標準HUDの上部を覆う領域 */
-.top-cover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 118px;
-  background: rgba(7,12,21,.96);
-}
+/* ==========================
+   SCOREBOARD
+========================== */
 
-/* 大会情報 */
-.event-banner {
-  position: absolute;
-  top: 6px;
-  left: 34px;
-  right: 34px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #b7c6d3;
-}
-
-/* メインスコアボード */
 .scoreboard {
   position: absolute;
-  top: 29px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  height: 89px;
-  background: var(--panel);
-  box-shadow: 0 8px 25px rgba(0,0,0,.4);
+  inset: 0;
+  pointer-events: none;
 }
 
-.team {
-  width: 305px;
-  padding: 14px 23px;
+.score-group {
+  position: absolute;
+  top: var(--score-top);
+  width: var(--score-width);
+  height: 82px;
+  display: flex;
+  background: var(--panel);
+  box-shadow: 0 5px 20px rgba(0,0,0,.4);
+}
+
+.score-group.team-a {
+  left: var(--score-left);
+  border-bottom: 4px solid var(--team-a);
+}
+
+.score-group.team-b {
+  right: var(--score-right);
+  border-bottom: 4px solid var(--team-b);
+}
+
+.team-info {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 6px;
 }
 
-.team-a {
-  border-bottom: 5px solid var(--a);
+/* 左チームはスコア方向へ右揃え */
+.team-a .team-info {
+  text-align: right;
+  align-items: flex-end;
 }
 
-.team-b {
-  border-bottom: 5px solid var(--b);
-  text-align: right;
+/* 右チームはスコア方向へ左揃え */
+.team-b .team-info {
+  text-align: left;
+  align-items: flex-start;
 }
 
 .team-name {
-  font-size: 26px;
+  display: block;
+  max-width: 100%;
+  font-size: 24px;
   font-weight: 900;
+  line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .team-side {
-  color: #aabac8;
-  font-size: 12px;
+  color: #bac8d2;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 2px;
 }
 
 .score {
-  width: 90px;
+  width: 84px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
-  font-size: 48px;
-  font-weight: 900;
   color: #071019;
-  font-variant-numeric: tabular-nums;
-}
-
-.score-a { background: var(--a); }
-.score-b { background: var(--b); }
-
-.match-center {
-  width: 170px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3px;
-}
-
-#roundLabel {
-  color: #b9c7d2;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-#timerLabel {
-  font-size: 29px;
+  font-size: 43px;
   font-weight: 900;
   font-variant-numeric: tabular-nums;
 }
 
-.live-label {
-  color: #6e8293;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.team-a .score {
+  background: var(--team-a);
 }
+
+.team-b .score {
+  background: var(--team-b);
+}
+
+/* ==========================
+   MAP INFO
+========================== */
 
 .map-info {
   position: absolute;
-  top: 126px;
+  top: 160px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--panel-soft);
-  padding: 9px 28px;
-  font-size: 14px;
+  padding: 8px 24px;
+  background: var(--panel);
+  border-radius: 3px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 1px;
-  border-radius: 3px;
+  white-space: nowrap;
 }
 
-/* 左右選手パネル */
+/* ==========================
+   PLAYER PANELS
+========================== */
+
 .roster {
   position: absolute;
-  top: 320px;
-  width: 305px;
+  top: var(--roster-top);
+  width: var(--roster-width);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--roster-gap);
 }
 
-.roster-a { left: 0; }
-.roster-b { right: 0; }
+.roster-a {
+  left: 0;
+}
+
+.roster-b {
+  right: 0;
+}
 
 .player {
   height: 76px;
   padding: 12px 16px;
-  background: var(--panel-soft);
-  border-left: 5px solid var(--a);
-  overflow: hidden;
+  background: var(--panel);
+  border-left: 5px solid var(--team-a);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 }
 
 .roster-b .player {
-  text-align: right;
   border-left: 0;
-  border-right: 5px solid var(--b);
+  border-right: 5px solid var(--team-b);
+  text-align: right;
 }
 
 .player-name {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 900;
   white-space: nowrap;
   overflow: hidden;
@@ -190,19 +194,36 @@ html, body {
 
 .player-meta {
   margin-top: 7px;
-  color: #aebdca;
   font-size: 12px;
   font-weight: 700;
+  color: #b8c6d1;
 }
 
-/* デモ表示 */
+/* ==========================
+   EVENT INFO
+========================== */
+
+.event-banner {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 5px #000;
+}
+
 .demo-label {
   position: absolute;
-  right: 22px;
-  top: 135px;
+  right: 20px;
+  top: 150px;
   font-size: 10px;
-  color: #b7c5d1;
-  letter-spacing: 1px;
+  color: #c4ced6;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
