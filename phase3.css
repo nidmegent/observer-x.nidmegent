@@ -536,3 +536,23 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =====================================
+   OBSERVER X ロゴ・ブランド文字を非表示
+===================================== */
+
+/* TIME OUT / TECHNICAL PAUSE 上部ロゴ */
+#p3Layer .p3-brand {
+  display: none !important;
+}
+
+/* ROUND WIN 上部ブランド文字 */
+#p3Layer .p3-round-kicker {
+  display: none !important;
+}
+
+/* PAUSE右下のブランド文字 */
+#p3Layer .p3-edge-label {
+  display: none !important;
+}
