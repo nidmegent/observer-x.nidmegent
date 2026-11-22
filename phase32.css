@@ -1,0 +1,198 @@
+
+/* =========================================
+   OBSERVER X — PHASE 3.2
+   SERIES / MAP WIN CONTROL
+========================================= */
+
+/* ===== ADMIN ===== */
+
+.p32-panel {
+  border-top: 4px solid #35d3e3;
+}
+
+.p32-help {
+  color: #91a6b8;
+  font-size: 13px;
+}
+
+.p32-teams {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.p32-team {
+  padding: 22px;
+  background: #0b1521;
+  border: 1px solid #314354;
+  border-radius: 7px;
+  text-align: center;
+}
+
+.p32-a {
+  border-top: 4px solid #35d3e3;
+  --p32-color: #35d3e3;
+}
+
+.p32-b {
+  border-top: 4px solid #ff5369;
+  --p32-color: #ff5369;
+}
+
+.p32-team-name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  overflow-wrap: anywhere;
+}
+
+.p32-score {
+  margin: 14px 0;
+  font-size: 62px;
+  line-height: 1;
+  font-weight: 900;
+  color: var(--p32-color);
+}
+
+.p32-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.p32-dot {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--p32-color);
+  border-radius: 50%;
+  opacity: .35;
+}
+
+.p32-dot.active {
+  background: var(--p32-color);
+  opacity: 1;
+  box-shadow: 0 0 12px var(--p32-color);
+}
+
+.p32-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.p32-controls button {
+  flex: 1;
+  min-height: 43px;
+}
+
+.p32-controls button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.p32-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: #09131d;
+  border: 1px solid #314354;
+}
+
+#p32Format {
+  color: #9db4c4;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+#p32SeriesScore {
+  font-size: 34px;
+  letter-spacing: 3px;
+}
+
+#p32Result {
+  font-size: 12px;
+  color: #35d3e3;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+#p32Status {
+  color: #35d3e3;
+  min-height: 20px;
+}
+
+/* ===== OBS HUD ===== */
+
+/* Attach the markers below the existing scoreboard groups */
+
+#stage .score-group.team-a,
+#stage .score-group.team-b {
+  position: relative;
+  overflow: visible;
+}
+
+#stage .p32-indicator {
+  position: absolute;
+  top: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  min-height: 24px;
+  background: rgba(6, 13, 22, .9);
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#stage .p32-indicator-a {
+  right: 0;
+  --p32-color: #35d3e3;
+  border-left: 3px solid var(--p32-color);
+}
+
+#stage .p32-indicator-b {
+  left: 0;
+  --p32-color: #ff5369;
+  border-right: 3px solid var(--p32-color);
+}
+
+#stage .p32-map-label {
+  color: #c1d1dd;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#stage .p32-map-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+#stage .p32-map-dot {
+  width: 10px;
+  height: 10px;
+  display: block;
+  border-radius: 50%;
+  border: 2px solid var(--p32-color);
+  opacity: .4;
+}
+
+#stage .p32-map-dot.active {
+  background: var(--p32-color);
+  opacity: 1;
+  box-shadow: 0 0 7px var(--p32-color);
+}
+
+@media (max-width: 700px) {
+  .p32-teams {
+    grid-template-columns: 1fr;
+  }
+}
