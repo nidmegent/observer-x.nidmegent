@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VALORANT Tournament HUD</title>
+<style>
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent !important;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+#hud {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  background: transparent;
+}
+.scoreboard {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  height: 88px;
+  background: #0c1420f2;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.team {
+  width: 310px;
+  padding: 17px 24px;
+  border-bottom: 5px solid var(--team-color);
+}
+.team.right { text-align: right; }
+.team-name {
+  font-size: 25px;
+  font-weight: 800;
+}
+.team-side {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #aab8c5;
+}
+.score {
+  display: grid;
+  place-items: center;
+  width: 90px;
+  font-size: 46px;
+  font-weight: 900;
+  background: var(--team-color);
+  color: #071019;
+}
+.center {
+  width: 155px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 6px;
+}
+.round {
+  color: #aebac7;
+  font-size: 15px;
+}
+.timer {
+  font-size: 29px;
+  font-weight: 800;
+}
+.map {
+  position: absolute;
+  top: 113px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0c1420ee;
+  padding: 9px 35px;
+  border-radius: 4px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.roster {
+  position: absolute;
+  top: 315px;
+  width: 275px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.roster.left { left: 14px; }
+.roster.right { right: 14px; }
+.player {
+  height: 72px;
+  padding: 11px 14px;
+  background: #0c1420e8;
+  border-left: 5px solid var(--team-color);
+  border-radius: 3px;
+}
+.roster.right .player {
+  border-left: 0;
+  border-right: 5px solid var(--team-color);
+  text-align: right;
+}
+.player-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+.player-info {
+  margin-top: 9px;
+  color: #b3c1cd;
+  font-size: 13px;
+}
+.footer {
+  position: absolute;
+  bottom: 18px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #0c1420ed;
+  font-size: 17px;
+  font-weight: 800;
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="hud">
+  <div class="scoreboard">
+    <div class="team" style="--team-color:#38cad9">
+      <div class="team-name" id="teamA"></div>
+      <div class="team-side">ATTACK</div>
+    </div>
+    <div class="score" id="scoreA" style="--team-color:#38cad9"></div>
+    <div class="center">
+      <div class="round" id="round"></div>
+      <div class="timer" id="timer"></div>
+    </div>
+    <div class="score" id="scoreB" style="--team-color:#ff596b"></div>
+    <div class="team right" style="--team-color:#ff596b">
+      <div class="team-name" id="teamB"></div>
+      <div class="team-side">DEFENSE</div>
+    </div>
+  </div>
+  <div class="map" id="mapInfo"></div>
+  <div class="roster left" id="rosterA"></div>
+  <div class="roster right" id="rosterB"></div>
+  <div class="footer">
+    <span id="eventName"></span>
+    <span id="matchInfo"></span>
+  </div>
+</div>
+
+<script>
+const match = {
+  teamA: {
+    name: "TEAM ALPHA",
+    score: 8,
+    color: "#38cad9",
+    players: [
+      {name:"ALPHA 1",agent:"JETT"},
+      {name:"ALPHA 2",agent:"SOVA"},
+      {name:"ALPHA 3",agent:"OMEN"},
+      {name:"ALPHA 4",agent:"KILLJOY"},
+      {name:"ALPHA 5",agent:"KAY/O"}
+    ]
+  },
+  teamB: {
+    name: "TEAM BRAVO",
+    score: 6,
+    color: "#ff596b",
+    players: [
+      {name:"BRAVO 1",agent:"RAZE"},
+      {name:"BRAVO 2",agent:"FADE"},
+      {name:"BRAVO 3",agent:"BRIMSTONE"},
+      {name:"BRAVO 4",agent:"CYPHER"},
+      {name:"BRAVO 5",agent:"SKYE"}
+    ]
+  },
+  map: "ASCENT",
+  mapNumber: 1,
+  bestOf: 3,
+  round: 15,
+  timer: "1:12",
+  eventName: "CUSTOM CHAMPIONSHIP",
+  matchInfo: "GRAND FINAL"
+};
+
+function setText(id, value) {
+  document.getElementById(id).textContent = value;
+}
+
+function renderPlayers(id, team) {
+  const root = document.getElementById(id);
+  root.replaceChildren();
+
+  team.players.forEach(player => {
+    const card = document.createElement("div");
+    card.className = "player";
+    card.style.setProperty("--team-color", team.color);
+
+    const name = document.createElement("div");
+    name.className = "player-name";
+    name.textContent = player.name;
+
+    const info = document.createElement("div");
+    info.className = "player-info";
+    info.textContent = player.agent + "  •  K/D/A —";
+
+    card.append(name, info);
+    root.appendChild(card);
+  });
+}
+
+function render() {
+  setText("teamA", match.teamA.name);
+  setText("teamB", match.teamB.name);
+  setText("scoreA", match.teamA.score);
+  setText("scoreB", match.teamB.score);
+  setText("round", "ROUND " + match.round);
+  setText("timer", match.timer);
+  setText("mapInfo",
+    match.map + " • MAP " + match.mapNumber +
+    " • BO" + match.bestOf);
+  setText("eventName", match.eventName);
+  setText("matchInfo", match.matchInfo);
+
+  renderPlayers("rosterA", match.teamA);
+  renderPlayers("rosterB", match.teamB);
+}
+
+const params = new URLSearchParams(location.search);
+if (params.get("players") === "0") {
+  document.querySelectorAll(".roster").forEach(
+    element => element.classList.add("hidden")
+  );
+}
+if (params.get("footer") === "0") {
+  document.querySelector(".footer").classList.add("hidden");
+}
+render();
+</script>
+</body>
+</html>
