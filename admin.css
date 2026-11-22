@@ -1,0 +1,128 @@
+
+:root {
+  --bg: #090e17;
+  --panel: #121c2a;
+  --line: #293a4c;
+  --cyan: #35d3e3;
+  --red: #ff5369;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #f3f6fa;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+header {
+  padding: 22px 32px;
+  background: #101824;
+  border-bottom: 1px solid var(--line);
+}
+
+h1 { margin: 0; letter-spacing: 3px; }
+h1 span { color: var(--cyan); }
+header p { color: #98a9ba; font-size: 12px; }
+
+main {
+  max-width: 1200px;
+  margin: 25px auto;
+  padding: 0 18px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+h2 { margin-top: 0; font-size: 20px; }
+h3 { font-size: 14px; color: #a9bdca; }
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  color: #a9bdca;
+  margin-bottom: 14px;
+}
+
+input, select {
+  width: 100%;
+  background: #090f19;
+  border: 1px solid #35475b;
+  border-radius: 5px;
+  padding: 12px;
+  color: white;
+  font-size: 15px;
+}
+
+button {
+  background: #244355;
+  color: white;
+  border: 1px solid #426378;
+  border-radius: 5px;
+  padding: 11px 18px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+button:hover { background: #315d72; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 15px;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 18px;
+}
+
+.team-a { border-top: 4px solid var(--cyan); }
+.team-b { border-top: 4px solid var(--red); }
+
+.score-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 20px;
+}
+
+.score-control strong {
+  font-size: 56px;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-control button { font-size: 25px; }
+
+.player-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+#status { color: var(--cyan); }
+[hidden] { display: none !important; }
+
+@media(max-width:700px) {
+  .teams { grid-template-columns: 1fr; }
+  .player-row { grid-template-columns: 1fr; }
+}
