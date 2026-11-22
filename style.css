@@ -1,19 +1,20 @@
-
 :root {
   --team-a: #35d3e3;
   --team-b: #ff5369;
   --panel: rgba(8, 14, 24, .96);
 
-  /* OBSで調整する位置 */
-  --score-top: 42px;
+  /* 上部スコアボード */
+  --score-top: 0px;
   --score-left: 410px;
   --score-right: 410px;
   --score-width: 390px;
 
-  --roster-top: 390px;
+  /* 左右プレイヤーパネル */
+  --roster-top: 485px;
   --roster-width: 305px;
   --roster-gap: 4px;
 }
+
 
 * {
   box-sizing: border-box;
@@ -226,4 +227,62 @@ html, body {
 
 .hidden {
   display: none !important;
+}
+
+
+/* ==================================
+   OBSERVER X TOP BAR
+   画面最上部の半透明ブラックバー
+================================== */
+
+#stage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 38px;
+  background: rgba(5, 10, 18, .68);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* スコアボードはバーより手前 */
+.scoreboard {
+  z-index: 5;
+}
+
+/* マップ情報 */
+.map-info {
+  z-index: 6;
+}
+
+/* 左右のプレイヤー表示 */
+.roster {
+  z-index: 4;
+}
+
+
+.event-banner {
+  position: absolute;
+  top: 10px;
+  bottom: auto;
+  left: 24px;
+  right: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #e3eaf0;
+
+  text-shadow: 0 2px 5px rgba(0,0,0,.8);
+}
+
+/* デモ表示 */
+.demo-label {
+  z-index: 7;
 }
