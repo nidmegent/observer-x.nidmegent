@@ -1,25 +1,45 @@
+
 <!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Observer X | VALORANT Tournament HUD</title>
+  <title>Observer X | Tournament Broadcast HUD</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <main id="stage" aria-label="Observer X tournament overlay">
+  <main id="stage">
+    <div class="top-cover"></div>
+
+    <div class="event-banner">
+      <span id="eventName"></span>
+      <span id="matchInfo"></span>
+    </div>
+
     <header class="scoreboard">
-      <div class="team team-a"><span class="team-name" id="teamAName"></span><span class="team-side" id="teamASide"></span></div>
+      <div class="team team-a">
+        <span class="team-side" id="teamASide"></span>
+        <strong class="team-name" id="teamAName"></strong>
+      </div>
       <div class="score score-a" id="teamAScore"></div>
-      <div class="match-center"><span id="roundLabel"></span><strong id="timerLabel"></strong></div>
+      <div class="match-center">
+        <span id="roundLabel"></span>
+        <strong id="timerLabel"></strong>
+        <span class="live-label">OBSERVER X</span>
+      </div>
       <div class="score score-b" id="teamBScore"></div>
-      <div class="team team-b"><span class="team-name" id="teamBName"></span><span class="team-side" id="teamBSide"></span></div>
+      <div class="team team-b">
+        <strong class="team-name" id="teamBName"></strong>
+        <span class="team-side" id="teamBSide"></span>
+      </div>
     </header>
+
     <div class="map-info" id="mapInfo"></div>
-    <section class="roster roster-a" id="rosterA" aria-label="Team A players"></section>
-    <section class="roster roster-b" id="rosterB" aria-label="Team B players"></section>
-    <footer class="footer"><span id="eventName"></span><span id="matchInfo"></span></footer>
+
+    <section class="roster roster-a" id="rosterA"></section>
+    <section class="roster roster-b" id="rosterB"></section>
+
     <div class="demo-label" id="demoLabel">DEMO DATA</div>
   </main>
 </body>
