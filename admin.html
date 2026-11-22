@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Observer X | Control Panel</title>
+<link rel="stylesheet" href="admin.css">
+<script type="module" src="admin.js"></script>
+</head>
+<body>
+<header>
+  <h1>OBSERVER <span>X</span></h1>
+  <p>TOURNAMENT CONTROL PANEL</p>
+</header>
+
+<main>
+  <section id="loginPanel" class="panel">
+    <h2>運営ログイン</h2>
+    <form id="loginForm">
+      <input id="email" type="email"
+        placeholder="メールアドレス" required>
+      <input id="password" type="password"
+        placeholder="パスワード" required>
+      <button type="submit">ログイン</button>
+    </form>
+  </section>
+
+  <div id="controlPanel" hidden>
+    <div class="toolbar">
+      <strong id="connection">接続確認中...</strong>
+      <button id="logout" type="button">ログアウト</button>
+    </div>
+
+    <section class="panel">
+      <h2>試合情報</h2>
+      <div class="fields">
+        <label>大会名
+          <input id="eventName">
+        </label>
+        <label>試合名
+          <input id="matchInfo">
+        </label>
+        <label>マップ
+          <select id="map">
+            <option>ASCENT</option>
+            <option>BIND</option>
+            <option>HAVEN</option>
+            <option>SPLIT</option>
+            <option>LOTUS</option>
+            <option>SUNSET</option>
+            <option>ICEBOX</option>
+            <option>ABYSS</option>
+            <option>PEARL</option>
+            <option>FRACTURE</option>
+            <option>BREEZE</option>
+            <option>CORRODE</option>
+          </select>
+        </label>
+        <label>マップ番号
+          <input id="mapNumber" type="number" min="1" max="9">
+        </label>
+        <label>BO形式
+          <select id="bestOf">
+            <option value="1">BO1</option>
+            <option value="3">BO3</option>
+            <option value="5">BO5</option>
+          </select>
+        </label>
+      </div>
+      <button id="saveMatch">試合情報を保存</button>
+    </section>
+
+    <div class="teams">
+      <section class="panel team-a">
+        <h2>TEAM A</h2>
+        <label>チーム名
+          <input id="teamAName">
+        </label>
+        <label>サイド
+          <select id="teamASide">
+            <option value="ATTACK">ATTACK</option>
+            <option value="DEFENSE">DEFENSE</option>
+          </select>
+        </label>
+        <div class="score-control">
+          <button id="aMinus" type="button">−</button>
+          <strong id="scoreA">0</strong>
+          <button id="aPlus" type="button">＋</button>
+        </div>
+        <h3>選手名 / エージェント</h3>
+        <div id="playersA"></div>
+        <button id="saveA">TEAM Aを保存</button>
+      </section>
+
+      <section class="panel team-b">
+        <h2>TEAM B</h2>
+        <label>チーム名
+          <input id="teamBName">
+        </label>
+        <label>サイド
+          <select id="teamBSide">
+            <option value="ATTACK">ATTACK</option>
+            <option value="DEFENSE">DEFENSE</option>
+          </select>
+        </label>
+        <div class="score-control">
+          <button id="bMinus" type="button">−</button>
+          <strong id="scoreB">0</strong>
+          <button id="bPlus" type="button">＋</button>
+        </div>
+        <h3>選手名 / エージェント</h3>
+        <div id="playersB"></div>
+        <button id="saveB">TEAM Bを保存</button>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>初期データ</h2>
+      <p>初回だけ使用。既存の試合データがある場合は上書きしません。</p>
+      <button id="initialize">初期データを作成</button>
+    </section>
+  </div>
+
+  <p id="status" role="status" aria-live="polite"></p>
+</main>
+</body>
+</html>
