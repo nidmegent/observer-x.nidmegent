@@ -1,7 +1,10 @@
 
-/* Observer X Phase 3 */
+/* =========================================
+   OBSERVER X — PHASE 3.1
+   CINEMATIC BROADCAST PACKAGE
+========================================= */
 
-/* ===== ADMIN ===== */
+/* ===== ADMIN PANEL ===== */
 
 .phase3-panel {
   border-top: 4px solid #35d3e3;
@@ -74,116 +77,459 @@
   min-height: 20px;
 }
 
-/* ===== OBS OVERLAY ===== */
+/* ===== OVERLAY BASE ===== */
 
 #p3Layer {
   position: absolute;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   pointer-events: none;
+  overflow: hidden;
   font-family: "Segoe UI", Arial, sans-serif;
+}
+
+#p3Layer *,
+#p3Layer *::before,
+#p3Layer *::after {
+  box-sizing: border-box;
 }
 
 #p3Layer [hidden] {
   display: none !important;
 }
 
+/* ===== CINEMATIC PAUSE ===== */
+
 .p3-pause {
+  --p3-accent: #35d3e3;
+
   position: absolute;
-  top: 310px;
   left: 50%;
+  top: 265px;
+  width: 1350px;
+  height: 510px;
   transform: translateX(-50%);
-  width: 820px;
-  min-height: 245px;
-  padding: 35px 45px;
-  text-align: center;
-  color: white;
-  background: rgba(7, 16, 27, .95);
-  border-top: 5px solid #35d3e3;
-  border-bottom: 2px solid #35d3e3;
-  box-shadow: 0 15px 55px rgba(0,0,0,.6);
-  animation: p3Appear .35s ease-out;
+  overflow: hidden;
+  isolation: isolate;
+
+  color: #fff;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(8, 12, 21, .96) 0%,
+      rgba(14, 23, 36, .94) 52%,
+      rgba(8, 12, 21, .97) 100%
+    );
+
+  border-top: 1px solid rgba(255,255,255,.25);
+  border-bottom: 1px solid rgba(255,255,255,.25);
+
+  box-shadow:
+    0 25px 85px rgba(0,0,0,.55),
+    0 0 60px rgba(0,0,0,.25);
 }
 
-.p3-pause[data-mode="technical"] {
-  border-color: #f0ae59;
+/* Soft accent lighting */
+
+.p3-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      ellipse at 15% 55%,
+      color-mix(in srgb, var(--p3-accent) 23%, transparent),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 90% 20%,
+      rgba(125,145,170,.12),
+      transparent 55%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 110px,
+      rgba(255,255,255,.018) 111px,
+      transparent 112px
+    );
+}
+
+/* Angled decorative stripes */
+
+.p3-diagonal {
+  position: absolute;
+  top: -150px;
+  width: 155px;
+  height: 850px;
+  transform: skewX(-30deg);
+  background: var(--p3-accent);
+  opacity: .19;
+}
+
+.p3-diagonal-left {
+  left: 70px;
+}
+
+.p3-diagonal-right {
+  right: 45px;
+  opacity: .13;
+}
+
+.p3-diagonal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-left: 3px solid var(--p3-accent);
+  border-right: 3px solid var(--p3-accent);
+}
+
+/* Branding */
+
+.p3-brand {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+}
+
+.p3-brand-symbol {
+  color: var(--p3-accent);
+  font-size: 48px;
+  font-weight: 1000;
+  font-style: italic;
+  line-height: 1;
+}
+
+.p3-brand strong {
+  display: block;
+  font-size: 19px;
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+
+.p3-brand small {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #a9b8c7;
+  white-space: nowrap;
+}
+
+/* Main text */
+
+.p3-content {
+  position: absolute;
+  inset: 105px 70px 45px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .p3-eyebrow {
+  color: var(--p3-accent);
   font-size: 19px;
-  letter-spacing: 7px;
-  font-weight: 800;
-  color: #35d3e3;
+  font-weight: 900;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
 }
 
-.p3-pause[data-mode="technical"] .p3-eyebrow {
-  color: #f0ae59;
+.p3-heading-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
 }
 
 .p3-title {
-  margin: 15px 0;
-  font-size: 68px;
-  line-height: 1.1;
-  font-weight: 950;
-  letter-spacing: 5px;
+  margin: 0;
+  font-size: 100px;
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: 3px;
+  line-height: 1.08;
+  white-space: nowrap;
+  text-shadow: 0 8px 25px rgba(0,0,0,.55);
 }
+
+.p3-bracket {
+  flex: 0 0 26px;
+  height: 78px;
+  border-top: 5px solid var(--p3-accent);
+  border-bottom: 5px solid var(--p3-accent);
+}
+
+.p3-bracket-left {
+  border-left: 5px solid var(--p3-accent);
+}
+
+.p3-bracket-right {
+  border-right: 5px solid var(--p3-accent);
+}
+
+/* Team / status nameplate */
+
+.p3-nameplate {
+  margin-top: 24px;
+  min-width: 440px;
+  max-width: 850px;
+  padding: 12px 45px;
+
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--p3-accent) 40%, #111827),
+      color-mix(in srgb, var(--p3-accent) 20%, #111827)
+    );
+
+  border-left: 7px solid var(--p3-accent);
+  border-right: 7px solid var(--p3-accent);
+  transform: skewX(-15deg);
+}
+
+.p3-nameplate span {
+  display: block;
+  transform: skewX(15deg);
+  font-size: 28px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 5px;
+  overflow-wrap: anywhere;
+}
+
+.p3-footer {
+  margin-top: 23px;
+  color: #aebfce;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 7px;
+}
+
+/* Corner HUD markings */
+
+.p3-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(255,255,255,.75);
+  border-style: solid;
+  z-index: 3;
+}
+
+.p3-tl {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+}
+
+.p3-tr {
+  top: 16px;
+  right: 16px;
+  border-width: 2px 2px 0 0;
+}
+
+.p3-bl {
+  bottom: 16px;
+  left: 16px;
+  border-width: 0 0 2px 2px;
+}
+
+.p3-br {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+}
+
+.p3-edge-label {
+  position: absolute;
+  right: 35px;
+  bottom: 20px;
+  color: rgba(255,255,255,.45);
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+/* Technical pause variations */
 
 .p3-pause[data-mode="technical"] .p3-title {
-  font-size: 52px;
+  font-size: 75px;
 }
 
-.p3-detail {
-  font-size: 23px;
-  letter-spacing: 3px;
-  color: #b9cbd8;
+.p3-pause[data-mode="technical"] .p3-nameplate {
+  min-width: 550px;
 }
+
+.p3-pause[data-mode="technical"] .p3-nameplate span {
+  font-size: 24px;
+}
+
+/* ===== ROUND WIN ===== */
 
 .p3-round {
+  --p3-accent: #35d3e3;
+
   position: absolute;
-  top: 390px;
+  top: 385px;
   left: 50%;
+  width: 850px;
+  min-height: 235px;
   transform: translateX(-50%);
-  width: 720px;
-  padding: 35px 40px;
-  text-align: center;
-  background: rgba(6,15,25,.94);
-  border-top: 5px solid #35d3e3;
+
+  background: rgba(7,15,26,.96);
+  border-top: 3px solid var(--p3-accent);
+  border-bottom: 1px solid rgba(255,255,255,.25);
+
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
   color: white;
-  animation: p3Appear .3s ease-out;
+  text-align: center;
+  overflow: hidden;
 }
 
-.p3-round[data-team="B"] {
-  border-color: #ff5369;
+.p3-round-accent {
+  position: absolute;
+  left: -50px;
+  top: -30px;
+  width: 145px;
+  height: 330px;
+  background: var(--p3-accent);
+  opacity: .25;
+  transform: skewX(-25deg);
+}
+
+.p3-round-inner {
+  position: relative;
+  padding: 34px 40px;
+}
+
+.p3-round-kicker {
+  color: var(--p3-accent);
+  font-size: 13px;
+  letter-spacing: 5px;
+  font-weight: 800;
 }
 
 .p3-round-team {
-  font-size: 42px;
+  margin-top: 17px;
+  font-size: 46px;
   font-weight: 950;
   letter-spacing: 3px;
+  overflow-wrap: anywhere;
 }
 
 .p3-round-label {
-  margin-top: 12px;
+  margin-top: 10px;
+  color: var(--p3-accent);
   font-size: 25px;
-  font-weight: 800;
-  letter-spacing: 8px;
-  color: #35d3e3;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 9px;
 }
 
-.p3-round[data-team="B"] .p3-round-label {
-  color: #ff5369;
+/* ===== ANIMATIONS ===== */
+
+.p3-enter {
+  animation: p3Entrance .65s cubic-bezier(.16,1,.3,1) both;
 }
 
-@keyframes p3Appear {
+.p3-exit {
+  animation: p3Exit .45s ease-in both;
+}
+
+.p3-round-enter {
+  animation: p3RoundEntrance .4s ease-out both;
+}
+
+.p3-enter .p3-content {
+  animation: p3TextEntrance .7s ease-out both;
+}
+
+.p3-enter .p3-diagonal-left {
+  animation: p3LightSweep 1s ease-out both;
+}
+
+@keyframes p3Entrance {
   from {
     opacity: 0;
-    margin-top: 25px;
+    transform: translate(-50%, 45px) scale(.96);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
-    margin-top: 0;
+    transform: translate(-50%, 0) scale(1);
+    filter: blur(0);
   }
 }
+
+@keyframes p3Exit {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes p3TextEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes p3LightSweep {
+  from {
+    opacity: 0;
+    transform: translateX(-150px) skewX(-30deg);
+  }
+  to {
+    opacity: .19;
+    transform: translateX(0) skewX(-30deg);
+  }
+}
+
+@keyframes p3RoundEntrance {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 35px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .p3-enter,
+  .p3-exit,
+  .p3-round-enter,
+  .p3-enter .p3-content,
+  .p3-enter .p3-diagonal-left {
+    animation: none;
+  }
+}
+
+/* Admin on smaller screens */
 
 @media (max-width: 700px) {
   .p3-buttons {
