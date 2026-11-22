@@ -1,8 +1,6 @@
 
 "use strict";
 
-// Phase 1.1 デモデータ
-// 今後Firebaseから取得するデータに置き換える
 const demoMatch = {
   teamA: {
     name: "TEAM ALPHA",
@@ -16,6 +14,7 @@ const demoMatch = {
       {name:"ALPHA 5",agent:"KAY/O"}
     ]
   },
+
   teamB: {
     name: "TEAM BRAVO",
     score: 6,
@@ -28,23 +27,22 @@ const demoMatch = {
       {name:"BRAVO 5",agent:"SKYE"}
     ]
   },
+
   map: "ASCENT",
   mapNumber: 1,
   bestOf: 3,
-  round: 15,
-  timer: "1:12",
   eventName: "OBSERVER X CHAMPIONSHIP",
   matchInfo: "GRAND FINAL"
 };
 
-const byId = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 function setText(id, value) {
-  byId(id).textContent = String(value ?? "");
+  $(id).textContent = String(value ?? "");
 }
 
 function renderRoster(id, players) {
-  const root = byId(id);
+  const root = $(id);
   root.replaceChildren();
 
   players.slice(0, 5).forEach(player => {
@@ -58,7 +56,7 @@ function renderRoster(id, players) {
     const meta = document.createElement("div");
     meta.className = "player-meta";
     meta.textContent =
-      `${player.agent || "AGENT TBD"}  •  K/D/A —`;
+      `${player.agent || "UNKNOWN"} • K/D/A —`;
 
     card.append(name, meta);
     root.appendChild(card);
@@ -68,16 +66,16 @@ function renderRoster(id, players) {
 function renderMatch(match) {
   setText("teamAName", match.teamA.name);
   setText("teamBName", match.teamB.name);
+
   setText("teamASide", match.teamA.side);
   setText("teamBSide", match.teamB.side);
+
   setText("teamAScore", match.teamA.score);
   setText("teamBScore", match.teamB.score);
-  setText("roundLabel", `ROUND ${match.round}`);
-  setText("timerLabel", match.timer);
 
   setText(
     "mapInfo",
-    `${match.map}  •  MAP ${match.mapNumber}  •  BO${match.bestOf}`
+    `${match.map} • MAP ${match.mapNumber} • BO${match.bestOf}`
   );
 
   setText("eventName", match.eventName);
@@ -88,32 +86,54 @@ function renderMatch(match) {
 }
 
 function scaleStage() {
-  byId("stage").style.transform =
-    `scale(${window.innerWidth / 1920}, ${window.innerHeight / 1080})`;
+  $("stage").style.transform =
+    `scale(${innerWidth / 1920}, ${innerHeight / 1080})`;
 }
 
 const params = new URLSearchParams(location.search);
 
-if (params.get("players") === "0") {
-  document.querySelectorAll(".roster").forEach(
-    element => element.classList.add("hidden")
+function hide(selector) {
+  document.querySelectorAll(selector).forEach(
+    el => el.classList.add("hidden")
   );
 }
 
-if (params.get("cover") === "0") {
-  document.querySelector(".top-cover")
-    .classList.add("hidden");
+if (params.get("players") === "0") {
+  hide(".roster");
 }
 
 if (params.get("event") === "0") {
-  document.querySelector(".event-banner")
-    .classList.add("hidden");
+  hide(".event-banner");
 }
 
 if (params.get("demo") === "0") {
-  byId("demoLabel").classList.add("hidden");
+  hide(".demo-label");
 }
+
+if (params.get("map") === "0") {
+  hide(".map-info");
+}
+
+/* OBSからURLで位置を微調整できる */
+const rootStyle = document.documentElement.style;
+
+function setPixelParam(name, variable, min, max) {
+  const raw = params.get(name);
+  if (raw === null || raw.trim() === "") return;
+
+  const value = Number(raw);
+  if (!Number.isFinite(value)) return;
+
+  const safe = Math.max(min, Math.min(max, value));
+  rootStyle.setProperty(variable, `${safe}px`);
+}
+
+setPixelParam("rosterY", "--roster-top", 0, 1000);
+setPixelParam("scoreY", "--score-top", 0, 300);
+setPixelParam("scoreLeft", "--score-left", 0, 800);
+setPixelParam("scoreRight", "--score-right", 0, 800);
 
 renderMatch(demoMatch);
 scaleStage();
+
 window.addEventListener("resize", scaleStage);
