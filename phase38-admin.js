@@ -169,13 +169,31 @@ function createPlayer(teamKey, index, player) {
     }, `${player?.name || "PLAYER"} のKDAを保存しました`);
   });
 
-  alive.addEventListener("click", async () => {
-    const next = !playerStats(teamKey, index).alive;
 
-    await writeChanges({
-      [`playerStats/${teamKey}/${index}/alive`]: next
-    }, next ? "ALIVEに変更しました" : "DEADに変更しました");
-  });
+/* ALIVE / DEAD 切り替え */
+alive.addEventListener("click", async () => {
+  if (!signedIn || busy) return;
+
+  const current = playerStats(teamKey, index).alive;
+  const next = !current;
+
+  // クリック直後にボタン表示を変更
+  alive.textContent = next ? "ALIVE" : "DEAD";
+  alive.classList.toggle("is-alive", next);
+  alive.classList.toggle("is-dead", !next);
+
+  // Firebaseに保存
+  await writeChanges({
+    [`playerStats/${teamKey}/${index}/alive`]: next
+  }, next
+    ? "ALIVEに変更しました"
+    : "DEADに変更しました"
+  );
+
+  // 保存後、Firebaseの最新状態で再描画
+  render();
+});
+
 
   actions.append(save, alive);
   row.append(name, inputs, actions);
