@@ -228,3 +228,76 @@
   pointer-events: none;
   opacity: .6;
 }
+
+
+/* ==========================================
+   PHASE 3.9 - COMPACT SPIKE HUD
+========================================== */
+
+#p39SpikeHUD {
+  top: 92px;
+  min-width: 0;
+  min-height: 28px;
+  padding: 5px 12px;
+  gap: 7px;
+  border: 0;
+  border-bottom: 2px solid #ffffff;
+  background: rgba(8, 14, 24, .9);
+}
+
+/* 矢印 */
+#p39SpikeHUD .p39-spike-icon {
+  width: auto;
+  height: auto;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* 以前のSVGを非表示 */
+#p39SpikeHUD .p39-spike-icon svg {
+  display: none;
+}
+
+/* 文字 */
+#p39SpikeHUD .p39-spike-title {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+}
+
+#p39SpikeHUD .p39-spike-subtitle {
+  display: none;
+}
+
+/* TEAM A：左向き矢印 */
+#p39SpikeHUD.p39-team-a {
+  border-bottom-color: var(--team-a, #35d3e3);
+  flex-direction: row;
+}
+
+#p39SpikeHUD.p39-team-a .p39-spike-icon {
+  color: var(--team-a, #35d3e3);
+}
+
+/* TEAM B：右向き矢印 */
+#p39SpikeHUD.p39-team-b {
+  border-bottom-color: var(--team-b, #ff5369);
+  flex-direction: row-reverse;
+}
+
+#p39SpikeHUD.p39-team-b .p39-spike-icon {
+  color: var(--team-b, #ff5369);
+}
+
+/* プラント後：仮表示 */
+#p39SpikeHUD.p39-planted {
+  top: 92px;
+  background: rgba(55, 14, 23, .96);
+  border: 0;
+  border-bottom: 2px solid #ff5369;
+}
+
+#p39SpikeHUD.p39-planted .p39-spike-icon {
+  color: #ff5369;
+}
+
