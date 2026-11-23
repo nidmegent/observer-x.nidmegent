@@ -1,0 +1,252 @@
+
+/* ==========================================
+   OBSERVER X — PHASE 3.3
+   MATCH FLOW CONTROL
+========================================== */
+
+.p33-panel {
+  border-top: 4px solid #35d3e3;
+}
+
+.p33-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.p33-heading h2 {
+  margin: 0 0 7px;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.p33-subtitle {
+  margin: 0;
+  color: #8fa8bb;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.p33-tag {
+  color: #35d3e3;
+  background: #102d3b;
+  border: 1px solid #245a69;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.p33-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.p33-info-item {
+  padding: 16px;
+  background: #0a1420;
+  border: 1px solid #2a4053;
+  text-align: center;
+}
+
+.p33-info-item span {
+  display: block;
+  margin-bottom: 9px;
+  color: #91a8b9;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+.p33-info-item strong {
+  display: block;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.p33-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.p33-action-card {
+  padding: 24px;
+  background: #0b1622;
+  border: 1px solid #314457;
+  border-left: 4px solid var(--p33-accent);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.p33-next {
+  --p33-accent: #35d3e3;
+}
+
+.p33-new {
+  --p33-accent: #ff5369;
+}
+
+.p33-action-label {
+  color: var(--p33-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.p33-action-card h3 {
+  margin: 13px 0;
+  color: white;
+  font-size: 30px;
+  font-weight: 950;
+  letter-spacing: 1px;
+}
+
+.p33-action-card p {
+  color: #a9bbc9;
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 65px;
+}
+
+.p33-action-card button {
+  margin-top: auto;
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid var(--p33-accent);
+  background: #193444;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.p33-new button {
+  background: #542735;
+}
+
+.p33-action-card button:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+
+.p33-action-card button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.p33-warning {
+  margin-top: 20px;
+  padding: 14px 16px;
+  color: #e2bc84;
+  background: #292218;
+  border-left: 3px solid #d69d51;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#p33Status {
+  min-height: 22px;
+  margin-top: 15px;
+  color: #35d3e3;
+  font-size: 13px;
+}
+
+/* ===== CONFIRM DIALOG ===== */
+
+.p33-dialog {
+  width: min(480px, calc(100vw - 32px));
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  color: white;
+  background: #101b29;
+  border: 1px solid #446176;
+  border-top: 4px solid #35d3e3;
+  box-shadow: 0 20px 70px rgba(0,0,0,.7);
+}
+
+.p33-dialog::backdrop {
+  background: rgba(0, 0, 0, .8);
+  backdrop-filter: blur(5px);
+}
+
+.p33-dialog h2 {
+  margin: 0 0 16px;
+  font-size: 26px;
+  letter-spacing: 2px;
+}
+
+.p33-dialog p {
+  color: #b8cbd9;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.p33-confirm-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+  padding: 13px;
+  background: #172737;
+  color: white;
+  cursor: pointer;
+}
+
+.p33-confirm-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: #35d3e3;
+  flex: 0 0 auto;
+}
+
+.p33-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.p33-dialog-actions button {
+  min-width: 120px;
+  min-height: 44px;
+}
+
+#p33Cancel {
+  background: #344151;
+}
+
+#p33Execute {
+  background: #146778;
+}
+
+#p33Execute:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .p33-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .p33-info-item {
+    padding: 10px 5px;
+  }
+
+  .p33-info-item strong {
+    font-size: 19px;
+  }
+
+  .p33-action-card h3 {
+    font-size: 26px;
+  }
+
+  .p33-heading {
+    flex-wrap: wrap;
+  }
+}
