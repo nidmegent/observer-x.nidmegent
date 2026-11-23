@@ -141,3 +141,20 @@
 #p34OverlayTimer.p34-is-technical .p34-overlay-caption {
   color: #ff5369;
 }
+
+
+/* ==========================================
+   PHASE 3.4 - TIMER LABEL HIDE
+   タイマー下の説明文字を非表示
+========================================== */
+
+/* OBS側 */
+#p34OverlayTimer .p34-overlay-caption {
+  display: none !important;
+}
+
+/* 管理画面側 */
+#p34AdminNote {
+  display: none !important;
+}
+
