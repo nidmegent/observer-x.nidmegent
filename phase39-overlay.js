@@ -64,16 +64,17 @@ function createSpikeHUD() {
   return hud;
 }
 
+
 function updateSpikeHUD() {
   const hud = createSpikeHUD();
   if (!hud) return;
 
   const status = spikeData.status || "none";
   const holder = spikeData.holder || "none";
-  const site = spikeData.site || "A";
 
   const title = hud.querySelector(".p39-spike-title");
   const subtitle = hud.querySelector(".p39-spike-subtitle");
+  const icon = hud.querySelector(".p39-spike-icon");
 
   hud.classList.remove(
     "p39-team-a",
@@ -85,8 +86,11 @@ function updateSpikeHUD() {
     hud.hidden = false;
     hud.classList.add("p39-planted");
 
+    // プラント後の位置はタイマーUI制作時に調整
     title.textContent = "SPIKE PLANTED";
-    subtitle.textContent = `${site} SITE`;
+    subtitle.textContent = "";
+    icon.textContent = "◆";
+
     return;
   }
 
@@ -94,19 +98,22 @@ function updateSpikeHUD() {
       ["teamA", "teamB"].includes(holder)) {
 
     const isA = holder === "teamA";
-    const team = matchData[holder] || {};
 
     hud.hidden = false;
     hud.classList.add(isA ? "p39-team-a" : "p39-team-b");
 
-    title.textContent = "SPIKE CARRIED";
-    subtitle.textContent =
-      team.name || (isA ? "TEAM A" : "TEAM B");
+    title.textContent = "SPIKE";
+    subtitle.textContent = "";
+
+    // TEAM A = 左 / TEAM B = 右
+    icon.textContent = isA ? "◀" : "▶";
+
     return;
   }
 
   hud.hidden = true;
 }
+
 
 function initialize() {
   createSpikeHUD();
