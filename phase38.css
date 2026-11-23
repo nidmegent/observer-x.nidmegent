@@ -1,0 +1,240 @@
+
+/* ==========================================
+   OBSERVER X - PHASE 3.8
+   PLAYER LIVE STATS
+========================================== */
+
+/* ===== OVERLAY ===== */
+
+#stage .roster .player {
+  position: relative;
+}
+
+#stage .roster .p35-player-content {
+  position: relative;
+  min-width: 0;
+}
+
+/* 生存状態ラベル */
+#stage .p38-life-label {
+  position: absolute;
+  right: 0;
+  top: -1px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+#stage .roster-b .p38-life-label {
+  right: auto;
+  left: 0;
+}
+
+#stage .p38-life-label.is-alive {
+  color: #69f0ae;
+  background: rgba(20, 80, 55, .7);
+}
+
+#stage .p38-life-label.is-dead {
+  color: #ff8995;
+  background: rgba(100, 25, 40, .8);
+}
+
+/* 名前と生存表示の重なり防止 */
+#stage .roster-a .player-name {
+  padding-right: 42px;
+}
+
+#stage .roster-b .player-name {
+  padding-left: 42px;
+}
+
+/* KDA */
+#stage .p38-kda {
+  margin-left: 6px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#stage .roster-b .p38-kda {
+  margin-left: 0;
+  margin-right: 6px;
+}
+
+/* 死亡時 */
+#stage .p38-dead {
+  filter: saturate(.45);
+}
+
+#stage .p38-dead .p35-player-icon {
+  filter: grayscale(1) brightness(.55);
+}
+
+#stage .p38-dead .player-name {
+  color: #9ba5b0;
+}
+
+/* ===== ADMIN PANEL ===== */
+
+#p38Panel {
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 26px;
+  background: #0c1623;
+  color: #fff;
+  border: 1px solid #2c4357;
+  border-top: 4px solid #35d3e3;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+#p38Panel[hidden] {
+  display: none !important;
+}
+
+.p38-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.p38-header h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.p38-header p {
+  color: #92acbd;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.p38-tag {
+  padding: 8px 12px;
+  background: #12313b;
+  color: #35d3e3;
+  border: 1px solid #28606e;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.p38-help {
+  color: #a6bdcc;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+#p38TeamA h3 {
+  color: #35d3e3;
+}
+
+#p38TeamB h3 {
+  color: #ff5369;
+}
+
+.p38-player {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 220px 230px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #142433;
+  border: 1px solid #2a4053;
+}
+
+.p38-name {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.p38-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.p38-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: #a6bdcc;
+  flex: 1;
+  min-width: 0;
+}
+
+.p38-inputs input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  background: #091521;
+  border: 1px solid #405569;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.p38-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.p38-actions button {
+  flex: 1;
+  min-height: 40px;
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.p38-actions button:first-child {
+  background: #146778;
+}
+
+.p38-life.is-alive {
+  background: #176044;
+}
+
+.p38-life.is-dead {
+  background: #813444;
+}
+
+.p38-footer {
+  margin-top: 24px;
+}
+
+#p38NextRound {
+  width: 100%;
+  padding: 15px;
+  background: #225c78;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.p38-busy button {
+  pointer-events: none;
+  opacity: .6;
+}
+
+#p38Status {
+  margin-top: 14px;
+  min-height: 20px;
+  color: #35d3e3;
+  font-size: 13px;
+}
+
+@media (max-width: 800px) {
+  .p38-player {
+    grid-template-columns: 1fr;
+  }
+}
