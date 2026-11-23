@@ -1,0 +1,191 @@
+
+/* ==========================================
+   OBSERVER X - PHASE 3.6
+   PLAYER HUD CUSTOMIZER
+========================================== */
+
+:root {
+  --p36-icon-size: 54px;
+  --p36-icon-radius: 6px;
+  --p36-background-opacity: .96;
+  --p36-name-size: 17px;
+  --p36-roster-a-y: 650px;
+  --p36-roster-b-y: 650px;
+  --p36-icon-space: 77px;
+}
+
+/* ===== OVERLAY ===== */
+
+/* 左右HUDの高さ */
+#stage .roster-a {
+  top: var(--p36-roster-a-y);
+}
+
+#stage .roster-b {
+  top: var(--p36-roster-b-y);
+}
+
+/* プレイヤーHUDだけ背景透明度を変更 */
+#stage .roster .player {
+  background: rgba(
+    8, 14, 24,
+    var(--p36-background-opacity)
+  );
+}
+
+/* カスタムアイコン */
+#stage .roster .p35-player-icon {
+  width: var(--p36-icon-size);
+  height: var(--p36-icon-size);
+  border-radius: var(--p36-icon-radius);
+}
+
+/* アイコンに合わせて文字領域を調整 */
+#stage .roster-a .p35-has-icon {
+  padding-left: var(--p36-icon-space);
+}
+
+#stage .roster-b .p35-has-icon {
+  padding-left: 16px;
+  padding-right: var(--p36-icon-space);
+}
+
+/* プレイヤー名の文字サイズ */
+#stage .roster .player-name {
+  font-size: var(--p36-name-size);
+}
+
+/* ===== ADMIN PANEL ===== */
+
+#p36Panel {
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 26px;
+  background: #0c1623;
+  color: #fff;
+  border: 1px solid #2c4357;
+  border-top: 4px solid #35d3e3;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+#p36Panel[hidden] {
+  display: none !important;
+}
+
+.p36-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.p36-heading h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+  letter-spacing: 1px;
+}
+
+.p36-heading p {
+  margin: 0;
+  font-size: 12px;
+  color: #92acbd;
+  letter-spacing: 2px;
+}
+
+.p36-tag {
+  padding: 8px 12px;
+  background: #12313b;
+  color: #35d3e3;
+  border: 1px solid #28606e;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.p36-setting {
+  padding: 18px;
+  margin-bottom: 12px;
+  background: #132332;
+  border: 1px solid #2a4053;
+}
+
+.p36-setting label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.p36-setting label strong {
+  color: #35d3e3;
+  font-size: 17px;
+}
+
+.p36-setting input[type="range"] {
+  display: block;
+  width: 100%;
+  accent-color: #35d3e3;
+  cursor: pointer;
+}
+
+.p36-setting select {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: #091521;
+  color: #fff;
+  border: 1px solid #405569;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.p36-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.p36-actions button {
+  flex: 1;
+  min-height: 48px;
+  padding: 12px;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#p36Save {
+  background: #146778;
+}
+
+#p36Reset {
+  background: #59313c;
+}
+
+.p36-actions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+#p36Status {
+  min-height: 20px;
+  margin-top: 15px;
+  font-size: 13px;
+  color: #35d3e3;
+}
+
+@media (max-width: 600px) {
+  .p36-heading,
+  .p36-actions {
+    flex-direction: column;
+  }
+}
