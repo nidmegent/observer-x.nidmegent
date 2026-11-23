@@ -260,3 +260,13 @@
   background: #813444 !important;
   color: #ffffff !important;
 }
+
+
+/* ALIVE / DEADラベル削除に伴う余白調整 */
+#stage .roster-a .player-name {
+  padding-right: 0 !important;
+}
+
+#stage .roster-b .player-name {
+  padding-left: 0 !important;
+}
