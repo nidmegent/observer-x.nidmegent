@@ -275,3 +275,15 @@
     flex-direction: column;
   }
 }
+
+
+/* ==========================================
+   PHASE 3.7 FIX
+   CYBER CYAN SCORE TEXT COLOR
+========================================== */
+
+/* TEAM A・TEAM Bのスコア数字を黒色に統一 */
+#stage .score-group.team-a .score,
+#stage .score-group.team-b .score {
+  color: #071019 !important;
+}
