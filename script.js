@@ -33,25 +33,56 @@ function setText(id, value) {
   if (element) element.textContent = String(value ?? "");
 }
 
+/* PHASE 3.5 - CUSTOM PLAYER ICON */
+
 function renderRoster(id, players = []) {
   const root = $(id);
   if (!root) return;
+
   root.replaceChildren();
 
-  players.slice(0,5).forEach(player => {
+  players.slice(0, 5).forEach(player => {
     const card = document.createElement("div");
     card.className = "player";
 
+    const iconUrl =
+      typeof player?.iconUrl === "string"
+        ? player.iconUrl.trim()
+        : "";
+
+    if (
+      iconUrl &&
+      /^https:\/\/[^ ]+$/i.test(iconUrl)
+    ) {
+      const icon = document.createElement("img");
+      icon.className = "p35-player-icon";
+      icon.src = iconUrl;
+      icon.alt = "";
+      icon.referrerPolicy = "no-referrer";
+
+      icon.onerror = () => {
+        icon.remove();
+        card.classList.remove("p35-has-icon");
+      };
+
+      card.classList.add("p35-has-icon");
+      card.appendChild(icon);
+    }
+
+    const content = document.createElement("div");
+    content.className = "p35-player-content";
+
     const name = document.createElement("div");
     name.className = "player-name";
-    name.textContent = player.name || "PLAYER";
+    name.textContent = player?.name || "PLAYER";
 
     const meta = document.createElement("div");
     meta.className = "player-meta";
     meta.textContent =
-      `${player.agent || "UNKNOWN"} • K/D/A —`;
+      `${player?.agent || "UNKNOWN"} • K/D/A —`;
 
-    card.append(name, meta);
+    content.append(name, meta);
+    card.appendChild(content);
     root.appendChild(card);
   });
 }
