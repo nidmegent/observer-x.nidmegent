@@ -1,0 +1,277 @@
+
+/* ==========================================
+   OBSERVER X - PHASE 3.7
+   BROADCAST THEME SYSTEM
+========================================== */
+
+:root {
+  --p37-team-a: #35d3e3;
+  --p37-team-b: #ff5369;
+  --p37-team-a-text: #071019;
+  --p37-team-b-text: #071019;
+  --p37-panel-rgb: 8, 14, 24;
+}
+
+/* ===== OVERLAY COLORS ===== */
+
+/* スコア背景と文字色 */
+#stage .score-group.team-a .score {
+  background: var(--p37-team-a);
+  color: var(--p37-team-a-text);
+}
+
+#stage .score-group.team-b .score {
+  background: var(--p37-team-b);
+  color: var(--p37-team-b-text);
+}
+
+/* スコアボード下線 */
+#stage .score-group.team-a {
+  border-bottom-color: var(--p37-team-a);
+}
+
+#stage .score-group.team-b {
+  border-bottom-color: var(--p37-team-b);
+}
+
+/* スコアボード背景 */
+#stage .score-group {
+  background: rgba(
+    var(--p37-panel-rgb),
+    .96
+  );
+}
+
+/* プレイヤーHUD背景 */
+#stage .roster .player {
+  background: rgba(
+    var(--p37-panel-rgb),
+    var(--p36-background-opacity, .96)
+  );
+}
+
+/* プレイヤーHUDのチーム枠 */
+#stage .roster-a .player {
+  border-left-color: var(--p37-team-a);
+}
+
+#stage .roster-b .player {
+  border-right-color: var(--p37-team-b);
+}
+
+/* カスタムアイコンの枠 */
+#stage .roster-a .p35-player-icon {
+  border-color: var(--p37-team-a);
+}
+
+#stage .roster-b .p35-player-icon {
+  border-color: var(--p37-team-b);
+}
+
+/* マップ情報の背景 */
+#stage .map-info {
+  background: rgba(
+    var(--p37-panel-rgb),
+    .96
+  );
+}
+
+/* ===== ADMIN PANEL ===== */
+
+#p37Panel {
+  --p37-a: #35d3e3;
+  --p37-b: #ff5369;
+  --p37-panel: #080e18;
+
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 26px;
+  color: white;
+  background: #0c1623;
+  border: 1px solid #2c4357;
+  border-top: 4px solid #35d3e3;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+#p37Panel[hidden] {
+  display: none !important;
+}
+
+.p37-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.p37-header h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.p37-header p {
+  margin: 0;
+  color: #92acbd;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.p37-tag {
+  padding: 8px 12px;
+  color: #35d3e3;
+  background: #12313b;
+  border: 1px solid #28606e;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.p37-presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.p37-presets button {
+  min-height: 54px;
+  padding: 10px;
+  color: #dce9f1;
+  background: #162737;
+  border: 1px solid #354e62;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.p37-presets button.p37-selected {
+  border: 2px solid #35d3e3;
+  background: #153641;
+  color: #ffffff;
+}
+
+.p37-color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.p37-color-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #132332;
+  border: 1px solid #2a4053;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.p37-color-field input {
+  width: 100%;
+  height: 46px;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.p37-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.p37-preview-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 72px;
+  padding: 12px;
+  background: var(--p37-panel);
+  font-weight: bold;
+  border-bottom: 4px solid;
+}
+
+.p37-preview-a {
+  border-bottom-color: var(--p37-a);
+}
+
+.p37-preview-b {
+  border-bottom-color: var(--p37-b);
+}
+
+.p37-preview-team strong {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 48px;
+  font-size: 28px;
+}
+
+.p37-preview-a strong {
+  background: var(--p37-a);
+  color: #071019;
+}
+
+.p37-preview-b strong {
+  background: var(--p37-b);
+  color: #071019;
+}
+
+.p37-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.p37-actions button {
+  flex: 1;
+  min-height: 48px;
+  padding: 12px;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#p37Save {
+  background: #146778;
+}
+
+#p37Reset {
+  background: #59313c;
+}
+
+.p37-actions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+#p37Status {
+  min-height: 20px;
+  margin-top: 15px;
+  color: #35d3e3;
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .p37-presets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .p37-color-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .p37-header,
+  .p37-actions {
+    flex-direction: column;
+  }
+}
