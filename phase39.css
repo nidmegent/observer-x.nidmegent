@@ -1,0 +1,230 @@
+
+/* ==========================================
+   OBSERVER X - PHASE 3.9
+   SPIKE STATUS HUD
+========================================== */
+
+/* ===== OBS OVERLAY ===== */
+
+#p39SpikeHUD {
+  position: absolute;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 180px;
+  max-width: 300px;
+  min-height: 39px;
+  padding: 6px 14px;
+
+  box-sizing: border-box;
+  background: rgba(8, 14, 24, .94);
+  border: 1px solid rgba(255,255,255,.18);
+  border-bottom: 3px solid #35d3e3;
+
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  text-align: left;
+  pointer-events: none;
+}
+
+#p39SpikeHUD[hidden] {
+  display: none !important;
+}
+
+#p39SpikeHUD.p39-team-a {
+  border-bottom-color: var(--team-a, #35d3e3);
+}
+
+#p39SpikeHUD.p39-team-b {
+  border-bottom-color: var(--team-b, #ff5369);
+}
+
+.p39-spike-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.p39-spike-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.p39-spike-info {
+  min-width: 0;
+}
+
+.p39-spike-title {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.p39-spike-subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: #b9c9d5;
+  margin-top: 2px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#p39SpikeHUD.p39-planted {
+  background: rgba(55, 14, 23, .96);
+  border-color: rgba(255, 83, 105, .55);
+  border-bottom: 3px solid #ff5369;
+  animation: p39PlantPulse 1.2s ease-in-out infinite;
+}
+
+#p39SpikeHUD.p39-planted .p39-spike-icon,
+#p39SpikeHUD.p39-planted .p39-spike-title {
+  color: #ff6478;
+}
+
+#p39SpikeHUD.p39-planted .p39-spike-subtitle {
+  color: #ffd2d8;
+}
+
+@keyframes p39PlantPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255,83,105,0);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255,83,105,.45);
+  }
+}
+
+/* ===== ADMIN PANEL ===== */
+
+#p39Panel {
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 26px;
+  background: #0c1623;
+  color: #ffffff;
+  border: 1px solid #2c4357;
+  border-top: 4px solid #ff5369;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+#p39Panel[hidden] {
+  display: none !important;
+}
+
+.p39-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.p39-heading h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.p39-heading p {
+  margin: 0;
+  font-size: 12px;
+  color: #93a9ba;
+  letter-spacing: 2px;
+}
+
+.p39-live {
+  padding: 8px 12px;
+  background: #143c36;
+  color: #70efb1;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.p39-section {
+  margin-top: 24px;
+}
+
+.p39-section h3 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #b6cbd9;
+  letter-spacing: 1px;
+}
+
+.p39-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#p39Panel button {
+  cursor: pointer;
+  border: 1px solid #40576b;
+  border-radius: 5px;
+  background: #182c3d;
+  color: #ffffff;
+  padding: 12px 18px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 800;
+  transition: background .15s, border-color .15s;
+}
+
+#p39Panel button:hover {
+  background: #24465c;
+}
+
+#p39Panel button.p39-selected {
+  background: #145b69;
+  border-color: #35d3e3;
+  color: #ffffff;
+}
+
+#p39Plant {
+  background: #8a3044 !important;
+  border-color: #d45169 !important;
+}
+
+#p39Reset {
+  background: #35404d !important;
+}
+
+#p39Panel button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.p39-current {
+  margin-top: 24px;
+  padding: 15px;
+  background: #08121d;
+  border: 1px solid #31495b;
+  color: #e1eef7;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: .5px;
+}
+
+#p39Message {
+  min-height: 20px;
+  margin-top: 12px;
+  color: #35d3e3;
+  font-size: 13px;
+}
+
+.p39-busy button {
+  pointer-events: none;
+  opacity: .6;
+}
