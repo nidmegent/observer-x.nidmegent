@@ -64,7 +64,6 @@ function createSpikeHUD() {
   return hud;
 }
 
-
 function updateSpikeHUD() {
   const hud = createSpikeHUD();
   if (!hud) return;
@@ -76,44 +75,59 @@ function updateSpikeHUD() {
   const subtitle = hud.querySelector(".p39-spike-subtitle");
   const icon = hud.querySelector(".p39-spike-icon");
 
+  // 直前のプラント状態を取得
+  const wasPlanted = hud.classList.contains("p39-planted");
+
   hud.classList.remove(
     "p39-team-a",
-    "p39-team-b",
-    "p39-planted"
+    "p39-team-b"
   );
 
+  // ===== SPIKE PLANTED =====
   if (status === "planted") {
     hud.hidden = false;
     hud.classList.add("p39-planted");
 
-    // プラント後の位置はタイマーUI制作時に調整
     title.textContent = "SPIKE PLANTED";
     subtitle.textContent = "";
     icon.textContent = "◆";
 
+    // プラントになった瞬間だけアニメーション再生
+    if (!wasPlanted) {
+      hud.style.animation = "none";
+      void hud.offsetWidth;
+      hud.style.animation = "";
+    }
+
     return;
   }
 
-  if (status === "carried" &&
-      ["teamA", "teamB"].includes(holder)) {
-
+  // ===== SPIKE CARRIED =====
+  if (
+    status === "carried" &&
+    ["teamA", "teamB"].includes(holder)
+  ) {
     const isA = holder === "teamA";
 
+    // プラント状態を解除
+    hud.classList.remove("p39-planted");
+
     hud.hidden = false;
-    hud.classList.add(isA ? "p39-team-a" : "p39-team-b");
+    hud.classList.add(
+      isA ? "p39-team-a" : "p39-team-b"
+    );
 
     title.textContent = "SPIKE";
     subtitle.textContent = "";
-
-    // TEAM A = 左 / TEAM B = 右
     icon.textContent = isA ? "◀" : "▶";
 
     return;
   }
 
+  // ===== NONE / RESET =====
+  hud.classList.remove("p39-planted");
   hud.hidden = true;
 }
-
 
 function initialize() {
   createSpikeHUD();
