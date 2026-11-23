@@ -301,3 +301,59 @@
   color: #ff5369;
 }
 
+
+/* ==========================================
+   PHASE 3.9 - SPIKE PLANTED ANIMATION
+========================================== */
+
+/* プラント表示の登場アニメーション */
+#p39SpikeHUD.p39-planted {
+  animation:
+    p39SpikeEntrance .7s cubic-bezier(.18,.8,.2,1) both,
+    p39SpikeGlow 1.3s ease-in-out .7s 2;
+}
+
+/* 登場：縮小状態から展開 */
+@keyframes p39SpikeEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(.3) translateY(-8px);
+    filter: blur(7px);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.08);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+    filter: blur(0);
+  }
+}
+
+/* 登場後に2回発光 */
+@keyframes p39SpikeGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255,83,105,0);
+  }
+
+  50% {
+    box-shadow: 0 0 24px rgba(255,83,105,.65);
+  }
+}
+
+/* アニメーション後は通常表示 */
+#p39SpikeHUD.p39-planted .p39-spike-title {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255,83,105,.5);
+}
+
+/* 動きを抑える設定の環境に対応 */
+@media (prefers-reduced-motion: reduce) {
+  #p39SpikeHUD.p39-planted {
+    animation: none;
+  }
+}
