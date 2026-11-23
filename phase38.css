@@ -238,3 +238,25 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================
+   PHASE 3.8 - LIFE STATUS DISPLAY FIX
+========================================== */
+
+/* OBS：ALIVE / DEAD の文字を非表示 */
+#stage .p38-life-label {
+  display: none !important;
+}
+
+/* 管理画面：生存時 */
+#p38Panel .p38-life.is-alive {
+  background: #176044 !important;
+  color: #ffffff !important;
+}
+
+/* 管理画面：死亡時 */
+#p38Panel .p38-life.is-dead {
+  background: #813444 !important;
+  color: #ffffff !important;
+}
