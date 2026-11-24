@@ -434,3 +434,70 @@ onValue(matchRef, snapshot => {
 
   setStatus("同期エラー: " + error.message);
 });
+
+/* ==========================================
+   PHASE 4.3 - TOURNAMENT NAME SETTINGS
+========================================== */
+
+const tournamentSettings = document.createElement("div");
+
+tournamentSettings.className = "p43-tournament-settings";
+
+tournamentSettings.innerHTML = `
+  <h3>TOURNAMENT NAME</h3>
+
+  <label>
+    大会名
+    <input
+      type="text"
+      id="p43TournamentName"
+      maxlength="100"
+      placeholder="大会名を入力"
+    >
+  </label>
+
+  <button type="button" id="p43SaveTournament">
+    SAVE TOURNAMENT NAME
+  </button>
+`;
+
+panel.insertBefore(
+  tournamentSettings,
+  $("p43Status")
+);
+
+const tournamentInput = $("p43TournamentName");
+
+let tournamentDirty = false;
+
+tournamentInput.addEventListener("input", () => {
+  tournamentDirty = true;
+});
+
+$("p43SaveTournament").onclick = async () => {
+  const name = tournamentInput.value.trim();
+
+  if (!name) {
+    setStatus("大会名を入力してください");
+    return;
+  }
+
+  await writeChanges(
+    {
+      "roundHistoryUI/tournamentName": name
+    },
+    "大会名を保存しました"
+  );
+
+  tournamentDirty = false;
+};
+
+onValue(
+  ref(db, `matches/${MATCH_ID}/roundHistoryUI/tournamentName`),
+  snapshot => {
+    if (!tournamentDirty) {
+      tournamentInput.value =
+        snapshot.val() || "NID CUSTOM #1";
+    }
+  }
+);
