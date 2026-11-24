@@ -175,20 +175,30 @@ $("p3Clear").onclick = () => perform(async () => {
   });
 });
 
+
 async function roundWin(team) {
   if (!match) throw new Error("初期データがありません");
 
   const id = crypto.randomUUID();
 
   await update(matchRef, {
+    // ROUND WIN 演出
     roundEvent: {
       id,
       type: "roundWin",
       team,
       expiresAt: Date.now() + 5000
+    },
+
+    // PHASE 3.9 - スパイク状態リセット
+    spikeStatus: {
+      status: "none",
+      holder: "none",
+      site: "A"
     }
   });
 }
+
 
 $("p3WinA").onclick = () => perform(() => roundWin("A"));
 $("p3WinB").onclick = () => perform(() => roundWin("B"));
