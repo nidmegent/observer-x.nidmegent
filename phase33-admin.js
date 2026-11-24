@@ -245,13 +245,30 @@ function openConfirmation(action) {
 }
 
 function resetEffects(match) {
+  // PAUSE解除
   match.pause = {
     type: "none",
     team: ""
   };
 
-  // Firebase Realtime Databaseではnullで削除される
+  // ROUND WIN演出解除
   match.roundEvent = null;
+
+  // PHASE 3.9 - SPIKEリセット
+  match.spikeStatus = {
+    status: "none",
+    holder: "none",
+    site: "A"
+  };
+
+  // PHASE 4.3 - ラウンド履歴リセット
+  match.roundHistory = null;
+
+  // 表示設定を保持してパネルを非表示にする
+  match.roundHistoryUI = {
+    ...(match.roundHistoryUI || {}),
+    visible: false
+  };
 }
 
 async function executeAction() {
