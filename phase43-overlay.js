@@ -52,31 +52,11 @@ function createHUD() {
 
     <div class="p43-hud-header">
       <span class="p43-hud-kicker">
-        OBSERVER X / MATCH ANALYSIS
+        NID CUSTOM #1
       </span>
-
-      <h2>ROUND HISTORY</h2>
     </div>
 
     <div class="p43-hud-content"></div>
-
-    <div class="p43-hud-footer">
-
-      <div class="p43-footer-team p43-team-a">
-        <span class="p43-name-a"></span>
-      </div>
-
-      <div class="p43-footer-score">
-        <strong class="p43-score-a">0</strong>
-        <span>:</span>
-        <strong class="p43-score-b">0</strong>
-      </div>
-
-      <div class="p43-footer-team p43-team-b">
-        <span class="p43-name-b"></span>
-      </div>
-
-    </div>
 
     <div class="p43-bottom-line"></div>
   `;
@@ -103,6 +83,12 @@ function createHalf(
 
   half.className = "p43-half";
 
+  const showTeamNames = start === 1;
+
+  if (showTeamNames) {
+    half.classList.add("p43-with-team-names");
+  }
+
   const heading = document.createElement("div");
 
   heading.className = "p43-half-title";
@@ -114,13 +100,18 @@ function createHalf(
 
   grid.className = "p43-round-grid";
 
-  grid.style.gridTemplateColumns =
-    `minmax(52px, 1.5fr) repeat(${end - start + 1}, minmax(0, 1fr))`;
+  const roundCount = end - start + 1;
 
-  const blank = document.createElement("div");
+  grid.style.gridTemplateColumns = showTeamNames
+    ? `150px repeat(${roundCount}, minmax(0, 1fr))`
+    : `repeat(${roundCount}, minmax(0, 1fr))`;
 
-  grid.appendChild(blank);
+  // FIRST HALFのみ左上に空白を作る
+  if (showTeamNames) {
+    grid.appendChild(document.createElement("div"));
+  }
 
+  // ラウンド番号
   for (let round = start; round <= end; round++) {
     const number = document.createElement("div");
 
@@ -131,15 +122,20 @@ function createHalf(
   }
 
   ["A", "B"].forEach(team => {
-    const label = document.createElement("div");
 
-    label.className =
-      `p43-row-label p43-team-${team.toLowerCase()}`;
+    // FIRST HALFのみ実際のチーム名を表示
+    if (showTeamNames) {
+      const label = document.createElement("div");
 
-    label.textContent = `TEAM ${team}`;
+      label.className =
+        `p43-row-label p43-team-${team.toLowerCase()}`;
 
-    grid.appendChild(label);
+      label.textContent = teamName(team);
 
+      grid.appendChild(label);
+    }
+
+    // ラウンド勝利履歴
     for (let round = start; round <= end; round++) {
       const cell = document.createElement("div");
 
@@ -186,6 +182,7 @@ function normalizeHistory(raw) {
   return history;
 }
 
+
 function render() {
   const hud = createHUD();
 
@@ -198,25 +195,18 @@ function render() {
 
   const history = normalizeHistory(match.roundHistory);
 
+  // HUD位置・サイズ
   hud.style.setProperty("--p43-x", `${ui.x}px`);
   hud.style.setProperty("--p43-y", `${ui.y}px`);
   hud.style.setProperty("--p43-width", `${ui.width}px`);
   hud.style.setProperty("--p43-height", `${ui.height}px`);
 
+  // 大会名
+  hud.querySelector(".p43-hud-kicker").textContent =
+    ui.tournamentName || "NID CUSTOM #1";
+
   const scoreA = Number(match.teamA?.score) || 0;
   const scoreB = Number(match.teamB?.score) || 0;
-
-  hud.querySelector(".p43-name-a").textContent =
-    teamName("A");
-
-  hud.querySelector(".p43-name-b").textContent =
-    teamName("B");
-
-  hud.querySelector(".p43-score-a").textContent =
-    scoreA;
-
-  hud.querySelector(".p43-score-b").textContent =
-    scoreB;
 
   const rounds = Object.keys(history).map(Number);
 
@@ -226,8 +216,13 @@ function render() {
     ...rounds
   );
 
-  const signature = JSON.stringify(history) +
-    "|" + maxRound;
+  // チーム名変更時にも再描画
+  const signature = JSON.stringify([
+    history,
+    maxRound,
+    teamName("A"),
+    teamName("B")
+  ]);
 
   if (signature !== previousSignature) {
     let latestRound = -1;
@@ -241,7 +236,8 @@ function render() {
       latestRound = Math.max(-1, ...changedRounds);
     }
 
-    const content = hud.querySelector(".p43-hud-content");
+    const content =
+      hud.querySelector(".p43-hud-content");
 
     content.replaceChildren();
 
@@ -277,7 +273,6 @@ function render() {
 
       overtime.className = "p43-overtime";
 
-      // 長期戦では直近12ラウンドを表示
       const start = Math.max(
         25,
         25 + Math.floor((maxRound - 25) / 12) * 12
@@ -309,6 +304,7 @@ function render() {
 
   hud.hidden = ui.visible !== true;
 }
+
 
 function init() {
   createHUD();
