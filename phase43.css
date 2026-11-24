@@ -457,3 +457,139 @@
     animation: none;
   }
 }
+
+
+/* ==========================================
+   PHASE 4.3 - ROUND HISTORY DESIGN UPDATE
+========================================== */
+
+/* 大会名設定 */
+
+#p43Panel .p43-tournament-settings {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(160,190,210,.2);
+}
+
+#p43Panel .p43-tournament-settings input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#p43SaveTournament {
+  width: 100%;
+  min-height: 42px;
+  font-weight: 800;
+}
+
+
+/* HUD全体 */
+
+#p43HistoryHUD {
+  padding: 22px 26px;
+
+  /* ゲーム画面の透けを抑える */
+  background: rgba(8,14,24,.96);
+}
+
+
+/* 大会名 */
+
+#p43HistoryHUD .p43-hud-header {
+  margin-bottom: 16px;
+}
+
+#p43HistoryHUD .p43-hud-kicker {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+
+/* 不要な表示を非表示 */
+
+#p43HistoryHUD .p43-hud-header h2,
+#p43HistoryHUD .p43-hud-footer {
+  display: none !important;
+}
+
+
+/* ラウンド履歴 */
+
+#p43HistoryHUD .p43-hud-content {
+  justify-content: center;
+  gap: 12px;
+}
+
+
+/* 前半と後半のラウンド枠を同じ幅にする */
+
+#p43HistoryHUD .p43-regulation {
+  grid-template-columns:
+    minmax(0, calc(50% + 75px))
+    minmax(0, 1fr);
+
+  gap: 12px;
+}
+
+
+/* FIRST HALFの見出し位置 */
+
+#p43HistoryHUD
+.p43-with-team-names
+.p43-half-title {
+  padding-left: 154px;
+}
+
+
+/* 前半・後半の見出し */
+
+#p43HistoryHUD .p43-half-title {
+  font-size: 14px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+
+/* ラウンド番号 */
+
+#p43HistoryHUD .p43-round-number {
+  font-size: 14px;
+}
+
+
+/* 実際のチーム名 */
+
+#p43HistoryHUD .p43-row-label {
+  font-size: 14px;
+  font-weight: 900;
+
+  padding-right: 8px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ラウンド勝利セル */
+
+#p43HistoryHUD .p43-round-cell {
+  height: 44px;
+  font-size: 23px;
+}
+
+
+/* OVERTIME */
+
+#p43HistoryHUD .p43-overtime .p43-round-cell {
+  height: 26px;
+  font-size: 17px;
+}
