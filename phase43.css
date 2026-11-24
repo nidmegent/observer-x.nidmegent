@@ -1,0 +1,459 @@
+
+/* ==========================================
+   OBSERVER X
+   PHASE 4.3 - ROUND HISTORY SYSTEM
+========================================== */
+
+/* ==========================================
+   ADMIN PANEL
+========================================== */
+
+#p43Panel[hidden],
+#p43HistoryHUD[hidden] {
+  display: none !important;
+}
+
+#p43Panel {
+  --p43-admin-a: #35d3e3;
+  --p43-admin-b: #ff5369;
+}
+
+#p43Panel .p43-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+#p43Panel .p43-heading h2 {
+  margin: 0;
+}
+
+#p43Panel .p43-heading p {
+  font-size: 12px;
+  opacity: .65;
+  margin: 6px 0 0;
+}
+
+#p43Panel .p43-tag {
+  padding: 5px 9px;
+  background: #16313d;
+  color: #35d3e3;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#p43Panel .p43-admin-state {
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #252d38;
+  color: #a7b3c2;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+#p43Panel .p43-admin-state.is-visible {
+  background: #176044;
+  color: #ffffff;
+}
+
+#p43Panel .p43-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0 18px;
+}
+
+#p43Panel .p43-buttons button {
+  min-height: 42px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+#p43Show {
+  background: #176044 !important;
+  color: #ffffff !important;
+}
+
+#p43Hide,
+#p43DeleteRound {
+  background: #813444 !important;
+  color: #ffffff !important;
+}
+
+#p43Panel .p43-editor,
+#p43Panel .p43-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#p43Panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+#p43Panel input,
+#p43Panel select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#p43HistoryList {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 14px 0 24px;
+}
+
+#p43Panel .p43-history-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #172331;
+  color: #ffffff;
+  border: 0;
+  border-left: 4px solid #35d3e3;
+  text-align: left;
+  font-size: 11px;
+}
+
+#p43Panel .p43-history-row[data-team="B"] {
+  border-left-color: #ff5369;
+}
+
+#p43Panel .p43-history-row strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#p43Panel .p43-history-row:hover {
+  background: #253748;
+}
+
+#p43Panel .p43-empty {
+  opacity: .6;
+  font-size: 12px;
+  text-align: center;
+}
+
+#p43Status {
+  font-size: 12px;
+  opacity: .8;
+}
+
+/* ==========================================
+   OBS OVERLAY
+========================================== */
+
+#p43HistoryHUD {
+  --p43-x: 960px;
+  --p43-y: 650px;
+  --p43-width: 1230px;
+  --p43-height: 400px;
+
+  position: absolute;
+
+  left: var(--p43-x);
+  top: var(--p43-y);
+
+  width: var(--p43-width);
+  height: var(--p43-height);
+
+  transform: translateX(-50%);
+
+  z-index: 45;
+  pointer-events: none;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  padding: 22px 26px;
+
+  color: #ffffff;
+  background: var(--panel, rgba(8,14,24,.96));
+
+  border: 1px solid rgba(160,190,210,.35);
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px)
+  );
+
+  animation:
+    p43Entrance .55s cubic-bezier(.18,.8,.2,1) both;
+}
+
+#p43HistoryHUD .p43-top-line,
+#p43HistoryHUD .p43-bottom-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+
+  background: linear-gradient(
+    90deg,
+    var(--team-a, #35d3e3),
+    var(--team-a, #35d3e3) 35%,
+    transparent 50%,
+    var(--team-b, #ff5369) 65%,
+    var(--team-b, #ff5369)
+  );
+}
+
+#p43HistoryHUD .p43-top-line {
+  top: 0;
+  height: 4px;
+}
+
+#p43HistoryHUD .p43-bottom-line {
+  bottom: 0;
+  height: 3px;
+}
+
+/* ===== HEADER ===== */
+
+#p43HistoryHUD .p43-hud-header {
+  flex-shrink: 0;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+#p43HistoryHUD .p43-hud-kicker {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #91a5b7;
+}
+
+#p43HistoryHUD .p43-hud-header h2 {
+  margin: 5px 0 0;
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+/* ===== CONTENT ===== */
+
+#p43HistoryHUD .p43-hud-content {
+  flex: 1;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 14px;
+  overflow: hidden;
+}
+
+#p43HistoryHUD .p43-regulation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+#p43HistoryHUD .p43-half {
+  min-width: 0;
+}
+
+#p43HistoryHUD .p43-half-title {
+  color: #a3b6c7;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+#p43HistoryHUD .p43-round-grid {
+  display: grid;
+  align-items: center;
+  gap: 4px;
+}
+
+#p43HistoryHUD .p43-round-number {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #a8b8c7;
+}
+
+#p43HistoryHUD .p43-row-label {
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+#p43HistoryHUD .p43-team-a {
+  color: var(--team-a, #35d3e3);
+}
+
+#p43HistoryHUD .p43-team-b {
+  color: var(--team-b, #ff5369);
+}
+
+#p43HistoryHUD .p43-round-cell {
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(130,160,190,.10);
+  border: 1px solid rgba(130,160,190,.12);
+
+  font-size: 20px;
+  font-weight: 900;
+
+  box-sizing: border-box;
+}
+
+#p43HistoryHUD .p43-win-a {
+  background: var(--team-a, #35d3e3);
+  color: var(--p37-team-a-text, #071019);
+  border-color: transparent;
+}
+
+#p43HistoryHUD .p43-win-b {
+  background: var(--team-b, #ff5369);
+  color: var(--p37-team-b-text, #071019);
+  border-color: transparent;
+}
+
+/* ===== OVERTIME ===== */
+
+#p43HistoryHUD .p43-overtime {
+  padding-top: 8px;
+  border-top: 1px solid rgba(160,190,210,.18);
+}
+
+#p43HistoryHUD .p43-overtime .p43-half {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+#p43HistoryHUD .p43-overtime .p43-half-title {
+  color: #ffcb68;
+  margin-bottom: 5px;
+}
+
+#p43HistoryHUD .p43-overtime .p43-round-cell {
+  height: 25px;
+  font-size: 15px;
+}
+
+/* ===== FOOTER ===== */
+
+#p43HistoryHUD .p43-hud-footer {
+  flex-shrink: 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+
+  align-items: center;
+  gap: 20px;
+
+  padding-top: 14px;
+  margin-top: 12px;
+
+  border-top: 1px solid rgba(160,190,210,.22);
+}
+
+#p43HistoryHUD .p43-footer-team {
+  min-width: 0;
+
+  font-size: 20px;
+  font-weight: 900;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#p43HistoryHUD .p43-footer-team.p43-team-b {
+  text-align: right;
+}
+
+#p43HistoryHUD .p43-footer-score {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#p43HistoryHUD .p43-footer-score strong {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+#p43HistoryHUD .p43-score-a {
+  color: var(--team-a, #35d3e3);
+}
+
+#p43HistoryHUD .p43-score-b {
+  color: var(--team-b, #ff5369);
+}
+
+/* ===== ANIMATION ===== */
+
+#p43HistoryHUD .p43-latest {
+  animation: p43RoundWin .65s ease-out both;
+}
+
+@keyframes p43Entrance {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 45px);
+    filter: blur(5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes p43RoundWin {
+  0% {
+    opacity: .3;
+    transform: scale(.65);
+    filter: brightness(2);
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #p43HistoryHUD,
+  #p43HistoryHUD .p43-latest {
+    animation: none;
+  }
+}
