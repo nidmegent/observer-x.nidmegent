@@ -1,21 +1,43 @@
 
 /* ==========================================
    OBSERVER X
-   PHASE 4.0 - CYBER ESPORTS TIMER HUD
+   PHASE 4.0.1 - CYBER ESPORTS TIMER REDESIGN
 ========================================== */
 
 :root {
+
+  /* TIMER FRAME */
+
   --p40-width: 320px;
-  --p40-height: 100px;
+  --p40-height: 110px;
   --p40-top: 0px;
   --p40-center-x: 960px;
 
-  --p40-round-y: 105px;
-  --p40-spike-y: 132px;
-  --p40-planted-y: 0px;
+  /* ROUND NUMBER */
+
+  --p40-round-y: 110px;
+  --p40-round-width: 156px;
+  --p40-round-height: 28px;
+
+  /* SPIKE STATUS */
+
+  --p40-spike-y: 144px;
+  --p40-planted-y: 144px;
+
+  /* MAP INFORMATION */
+
+  --p40-map-y: 184px;
+
+  /* EFFECT SETTINGS */
+
+  --p40-glow: 4px;
+  --p40-active-glow: 9px;
 }
 
-/* ===== TIMER HUD ===== */
+
+/* ==========================================
+   TIMER HUD
+========================================== */
 
 #p40TimerHUD {
   position: absolute;
@@ -29,12 +51,15 @@
   transform: translateX(-50%);
 
   z-index: 40;
-  pointer-events: none;
 
+  pointer-events: none;
   overflow: visible;
 }
 
-/* ===== SVG FRAME ===== */
+
+/* ==========================================
+   SVG FRAME
+========================================== */
 
 #p40TimerHUD .p40-frame {
   display: block;
@@ -45,31 +70,38 @@
   overflow: visible;
 }
 
-/* ===== FRAME PANEL ===== */
+
+/* PANEL BACKGROUND */
 
 #p40TimerHUD .p40-frame-panel {
   fill: var(--panel, #080e18);
 }
 
-/* ===== TEAM COLOR LINES ===== */
+
+/* ==========================================
+   TEAM COLOR LINES
+========================================== */
 
 #p40TimerHUD .p40-line-a,
 #p40TimerHUD .p40-line-b {
+
   fill: none;
 
   stroke-width: 2.5;
   stroke-linejoin: bevel;
 
   transition:
-    stroke .3s ease,
-    filter .3s ease;
+    stroke .25s ease,
+    filter .25s ease,
+    opacity .25s ease;
 }
 
 #p40TimerHUD .p40-line-a {
   stroke: var(--team-a, #35d3e3);
 
   filter: drop-shadow(
-    0 0 4px var(--team-a, #35d3e3)
+    0 0 var(--p40-glow)
+    var(--team-a, #35d3e3)
   );
 }
 
@@ -77,33 +109,65 @@
   stroke: var(--team-b, #ff5369);
 
   filter: drop-shadow(
-    0 0 4px var(--team-b, #ff5369)
+    0 0 var(--p40-glow)
+    var(--team-b, #ff5369)
   );
 }
 
-/* ===== DETAIL LINES ===== */
+
+/* LOWER EDGE LINES */
+
+#p40TimerHUD .p40-edge-a,
+#p40TimerHUD .p40-edge-b {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: .75;
+}
+
+#p40TimerHUD .p40-edge-a {
+  stroke: var(--team-a, #35d3e3);
+}
+
+#p40TimerHUD .p40-edge-b {
+  stroke: var(--team-b, #ff5369);
+}
+
+
+/* ==========================================
+   INNER DETAILS
+========================================== */
 
 #p40TimerHUD .p40-detail {
   fill: none;
-  stroke: rgba(255,255,255,.24);
+
+  stroke: rgba(255,255,255,.23);
   stroke-width: 1;
 }
 
-/* ===== TEAM ACCENTS ===== */
+
+/* TEAM ACCENTS */
 
 #p40TimerHUD .p40-accent-a {
   fill: var(--team-a, #35d3e3);
-  opacity: .75;
+  opacity: .8;
+
+  transition: fill .25s, opacity .25s;
 }
 
 #p40TimerHUD .p40-accent-b {
   fill: var(--team-b, #ff5369);
-  opacity: .75;
+  opacity: .8;
+
+  transition: fill .25s, opacity .25s;
 }
 
-/* ===== ROUND NUMBER ===== */
+
+/* ==========================================
+   ROUND NUMBER HUD
+========================================== */
 
 #p40TimerHUD .p40-round-label {
+
   position: absolute;
 
   top: var(--p40-round-y);
@@ -111,9 +175,314 @@
 
   transform: translateX(-50%);
 
-  min-width: 112px;
+  width: var(--p40-round-width);
+  height: var(--p40-round-height);
 
-  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  background: var(--panel, #080e18);
+
+  border-top: 1px solid rgba(255,255,255,.22);
+
+  color: #ffffff;
+
+  white-space: nowrap;
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    92% 100%,
+    8% 100%
+  );
+}
+
+#p40TimerHUD .p40-round-text {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#p40TimerHUD #p40RoundNumber {
+  font-size: 16px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ==========================================
+   SPIKE CARRIED - TEAM A
+========================================== */
+
+#p40TimerHUD.p40-carried-a .p40-line-a {
+
+  filter: drop-shadow(
+    0 0 var(--p40-active-glow)
+    var(--team-a, #35d3e3)
+  );
+}
+
+#p40TimerHUD.p40-carried-a .p40-accent-a {
+  opacity: 1;
+
+  filter: drop-shadow(
+    0 0 5px var(--team-a, #35d3e3)
+  );
+}
+
+#p40TimerHUD.p40-carried-a .p40-accent-b {
+  opacity: .4;
+}
+
+
+/* ==========================================
+   SPIKE CARRIED - TEAM B
+========================================== */
+
+#p40TimerHUD.p40-carried-b .p40-line-b {
+
+  filter: drop-shadow(
+    0 0 var(--p40-active-glow)
+    var(--team-b, #ff5369)
+  );
+}
+
+#p40TimerHUD.p40-carried-b .p40-accent-b {
+  opacity: 1;
+
+  filter: drop-shadow(
+    0 0 5px var(--team-b, #ff5369)
+  );
+}
+
+#p40TimerHUD.p40-carried-b .p40-accent-a {
+  opacity: .4;
+}
+
+
+/* ==========================================
+   SPIKE PLANTED - TIMER FRAME
+========================================== */
+
+#p40TimerHUD.p40-planted .p40-line-a,
+#p40TimerHUD.p40-planted .p40-line-b,
+#p40TimerHUD.p40-planted .p40-edge-a,
+#p40TimerHUD.p40-planted .p40-edge-b {
+
+  stroke: #ff5369;
+
+  filter: drop-shadow(
+    0 0 7px #ff5369
+  );
+
+  animation:
+    p40PlantPulse 1.5s ease-in-out infinite;
+}
+
+#p40TimerHUD.p40-planted .p40-accent-a,
+#p40TimerHUD.p40-planted .p40-accent-b {
+  fill: #ff5369;
+
+  opacity: 1;
+}
+
+#p40TimerHUD.p40-planted .p40-round-label {
+
+  border-top-color: #ff5369;
+}
+
+@keyframes p40PlantPulse {
+
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .45;
+  }
+}
+
+
+/* ==========================================
+   PHASE 3.9 - SPIKE HUD INTEGRATION
+========================================== */
+
+#stage #p39SpikeHUD {
+
+  left: var(--p40-center-x);
+
+  height: 32px;
+  min-height: 32px;
+
+  box-sizing: border-box;
+
+  padding: 5px 20px;
+
+  gap: 9px;
+
+  border: 0;
+
+  background: var(--panel, #080e18);
+
+  clip-path: polygon(
+    7% 0,
+    93% 0,
+    100% 50%,
+    93% 100%,
+    7% 100%,
+    0 50%
+  );
+
+  z-index: 55;
+}
+
+#stage #p39SpikeHUD[hidden] {
+  display: none !important;
+}
+
+#stage #p39SpikeHUD .p39-spike-title {
+
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+#stage #p39SpikeHUD .p39-spike-icon {
+
+  font-size: 16px;
+  font-weight: 900;
+}
+
+
+/* ==========================================
+   SPIKE CARRIED HUD
+========================================== */
+
+#stage #p39SpikeHUD.p39-team-a,
+#stage #p39SpikeHUD.p39-team-b {
+
+  top: var(--p40-spike-y);
+
+  min-width: 138px;
+}
+
+#stage #p39SpikeHUD.p39-team-a {
+
+  border-bottom: 2px solid
+    var(--team-a, #35d3e3);
+
+  flex-direction: row;
+}
+
+#stage #p39SpikeHUD.p39-team-b {
+
+  border-bottom: 2px solid
+    var(--team-b, #ff5369);
+
+  flex-direction: row-reverse;
+}
+
+#stage #p39SpikeHUD.p39-team-a .p39-spike-title,
+#stage #p39SpikeHUD.p39-team-a .p39-spike-icon {
+
+  color: var(--team-a, #35d3e3);
+}
+
+#stage #p39SpikeHUD.p39-team-b .p39-spike-title,
+#stage #p39SpikeHUD.p39-team-b .p39-spike-icon {
+
+  color: var(--team-b, #ff5369);
+}
+
+
+/* ==========================================
+   SPIKE PLANTED HUD
+========================================== */
+
+#stage #p39SpikeHUD.p39-planted {
+
+  top: var(--p40-planted-y);
+
+  min-width: 230px;
+
+  background: linear-gradient(
+    90deg,
+    #38101c,
+    #702436,
+    #38101c
+  );
+
+  border-top: 1px solid #ff5369;
+  border-bottom: 2px solid #ff5369;
+
+  z-index: 60;
+
+  animation:
+    p39SpikeEntrance .7s
+      cubic-bezier(.18,.8,.2,1) both,
+
+    p40PlantedFlash 1.2s
+      ease-in-out .7s 2;
+}
+
+#stage #p39SpikeHUD.p39-planted .p39-spike-title {
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 0 10px rgba(255,83,105,.8);
+}
+
+#stage #p39SpikeHUD.p39-planted .p39-spike-icon {
+
+  color: #ff5369;
+}
+
+@keyframes p40PlantedFlash {
+
+  0%, 100% {
+    background-color: #38101c;
+    filter: brightness(1);
+  }
+
+  50% {
+    background-color: #702436;
+    filter: brightness(1.5);
+  }
+}
+
+
+/* ==========================================
+   MAP INFORMATION REDESIGN
+========================================== */
+
+#stage .map-info {
+
+  position: absolute;
+
+  top: var(--p40-map-y);
+  left: var(--p40-center-x);
+
+  transform: translateX(-50%);
+
+  min-width: 190px;
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 25px;
+
+  border: 0;
+  border-radius: 0;
 
   background: var(--panel, #080e18);
 
@@ -121,84 +490,33 @@
 
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 
-  text-align: center;
   white-space: nowrap;
 
   clip-path: polygon(
-    8% 0,
-    92% 0,
+    6% 0,
+    94% 0,
     100% 50%,
-    92% 100%,
-    8% 100%,
+    94% 100%,
+    6% 100%,
     0 50%
   );
 }
 
-/* ===== SPIKE PLANTED MODE ===== */
-
-#p40TimerHUD.p40-planted .p40-line-a,
-#p40TimerHUD.p40-planted .p40-line-b {
-  stroke: #ff5369;
-
-  filter: drop-shadow(
-    0 0 6px #ff5369
-  );
-}
-
-#p40TimerHUD.p40-planted .p40-accent-a,
-#p40TimerHUD.p40-planted .p40-accent-b {
-  fill: #ff5369;
-}
-
-#p40TimerHUD.p40-planted .p40-line-a,
-#p40TimerHUD.p40-planted .p40-line-b {
-  animation: p40PlantPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes p40PlantPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: .55;
-  }
-}
 
 /* ==========================================
-   PHASE 3.9 - SPIKE HUD INTEGRATION
+   REDUCED MOTION
 ========================================== */
 
-/* スパイク保持中 */
-
-#stage #p39SpikeHUD.p39-team-a,
-#stage #p39SpikeHUD.p39-team-b {
-  top: var(--p40-spike-y);
-  left: var(--p40-center-x);
-
-  z-index: 55;
-}
-
-/* スパイク設置後 */
-
-#stage #p39SpikeHUD.p39-planted {
-  top: var(--p40-planted-y);
-  left: var(--p40-center-x);
-
-  z-index: 60;
-
-  background: rgba(55,14,23,.96);
-
-  border-bottom: 2px solid #ff5369;
-}
-
-/* ===== REDUCED MOTION ===== */
-
 @media (prefers-reduced-motion: reduce) {
+
   #p40TimerHUD.p40-planted .p40-line-a,
-  #p40TimerHUD.p40-planted .p40-line-b {
+  #p40TimerHUD.p40-planted .p40-line-b,
+  #p40TimerHUD.p40-planted .p40-edge-a,
+  #p40TimerHUD.p40-planted .p40-edge-b,
+  #stage #p39SpikeHUD.p39-planted {
+
     animation: none;
   }
 }
