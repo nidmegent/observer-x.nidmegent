@@ -155,12 +155,27 @@ $("saveMatch").onclick = () => saveFields({
   bestOf: Number($("bestOf").value)
 });
 
+
 function teamFields(key, prefix) {
-  return {
-    [`${key}/name`]: $(`team${prefix}Name`).value.trim(),
-    [`${key}/side`]: $(`team${prefix}Side`).value,
-    [`${key}/players`]: readPlayers(prefix.toLowerCase())
+  const fields = {
+    [`${key}/name`]:
+      $(`team${prefix}Name`).value.trim(),
+
+    [`${key}/side`]:
+      $(`team${prefix}Side`).value
   };
+
+  const players = readPlayers(prefix.toLowerCase());
+
+  players.forEach((player, index) => {
+    fields[`${key}/players/${index}/name`] =
+      player.name;
+
+    fields[`${key}/players/${index}/agent`] =
+      player.agent;
+  });
+
+  return fields;
 }
 
 $("saveA").onclick = () =>
@@ -191,13 +206,41 @@ $("aMinus").onclick = () => changeScore("teamA", -1);
 $("bPlus").onclick = () => changeScore("teamB", 1);
 $("bMinus").onclick = () => changeScore("teamB", -1);
 
-// 入力中にリアルタイム同期でフォームが戻らないようにする
-$("controlPanel").addEventListener("input", () => {
-  dirty = true;
-});
-$("controlPanel").addEventListener("change", () => {
-  dirty = true;
-});
+
+// 基本設定フォームだけ入力状態を管理する
+
+function markBaseFormDirty(event) {
+  const id = event.target?.id || "";
+
+  const baseFields = [
+    "eventName",
+    "matchInfo",
+    "map",
+    "mapNumber",
+    "bestOf",
+    "teamAName",
+    "teamBName",
+    "teamASide",
+    "teamBSide"
+  ];
+
+  const isPlayerField =
+    /^[ab](Name|Agent)[0-4]$/.test(id);
+
+  if (baseFields.includes(id) || isPlayerField) {
+    dirty = true;
+  }
+}
+
+$("controlPanel").addEventListener(
+  "input",
+  markBaseFormDirty
+);
+
+$("controlPanel").addEventListener(
+  "change",
+  markBaseFormDirty
+);
 
 onAuthStateChanged(auth, user => {
   $("loginPanel").hidden = !!user;
@@ -223,9 +266,17 @@ onAuthStateChanged(auth, user => {
       ? "● REALTIME CONNECTED"
       : "初期データ未作成";
 
-    if (currentMatch && !dirty) {
-      render(currentMatch);
-    }
+if (currentMatch) {
+  $("scoreA").textContent =
+    currentMatch.teamA?.score ?? 0;
+
+  $("scoreB").textContent =
+    currentMatch.teamB?.score ?? 0;
+
+  if (!dirty) {
+    render(currentMatch);
+  }
+}
   }, error => {
     status("データ取得エラー: " + error.message);
     $("connection").textContent = "接続エラー";
