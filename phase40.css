@@ -530,8 +530,8 @@
 /* タイマー装飾を左右いっぱいに広げる */
 
 #p40TimerHUD {
-  width: 320px;
-  height: 110px;
+  width: var(--p40-width);
+  height: var(--p40-height);
 }
 
 /* SVGの縦横比による左右の余白を解消 */
@@ -557,8 +557,8 @@
   position: absolute;
   top: 0;
 
-  width: 36px;
-  height: 100px;
+  width: 0px;
+  height: 82px;
 
   background: var(--panel, #080e18);
 
