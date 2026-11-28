@@ -9,24 +9,24 @@
   /* TIMER FRAME */
 
   --p40-width: 320px;
-  --p40-height: 110px;
+  --p40-height: 82px;
   --p40-top: 0px;
   --p40-center-x: 960px;
 
   /* ROUND NUMBER */
 
-  --p40-round-y: 110px;
+  --p40-round-y: 91px;
   --p40-round-width: 156px;
   --p40-round-height: 28px;
 
   /* SPIKE STATUS */
 
-  --p40-spike-y: 144px;
-  --p40-planted-y: 144px;
+  --p40-spike-y: 123px;
+  --p40-planted-y: 119px;
 
   /* MAP INFORMATION */
 
-  --p40-map-y: 184px;
+  --p40-map-y: 158px;
 
   /* EFFECT SETTINGS */
 
