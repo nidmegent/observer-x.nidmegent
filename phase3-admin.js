@@ -174,19 +174,23 @@ $("p3Clear").onclick = () => perform(async () => {
   });
 });
 
-
 async function roundWin(team) {
-  if (!match) {
+  if (!match?.teamA || !match?.teamB) {
     throw new Error("初期データがありません");
   }
 
   const id = crypto.randomUUID();
   const now = Date.now();
 
+  let reason = "";
+
   const result = await runTransaction(
     matchRef,
     value => {
-      if (!value?.teamA || !value?.teamB) return;
+      if (!value?.teamA || !value?.teamB) {
+        reason = "試合データがありません";
+        return;
+      }
 
       const scoreA = Math.max(
         0, Math.trunc(Number(value.teamA.score) || 0)
@@ -202,19 +206,23 @@ async function roundWin(team) {
         ...(value.roundHistory || {})
       };
 
-      // 同一ラウンドは重複登録しない
-      if (history[round]) return;
-
-      // ラウンド勝利履歴
-      history[round] = {
-        team,
-        round,
-        recordedAt: now
-      };
+      // 未記録の場合のみラウンド履歴を追加
+      if (!history[round]) {
+        history[round] = {
+          team,
+          round,
+          recordedAt: now
+        };
+      } else if (history[round].team !== team) {
+        reason =
+          `ROUND ${round} は別チームで記録済みです。` +
+          "ROUND HISTORYから修正してください。";
+        return;
+      }
 
       value.roundHistory = history;
 
-      // ROUND WIN演出
+      // 記録済みでも同じチームの演出は再生可能
       value.roundEvent = {
         id,
         type: "roundWin",
@@ -222,13 +230,14 @@ async function roundWin(team) {
         expiresAt: now + 5000
       };
 
-      // PHASE 3.9 - SPIKE状態リセット
+      // SPIKE状態リセット
       value.spikeStatus = {
         status: "none",
         holder: "none",
         site: "A"
       };
 
+      reason = "";
       return value;
     },
     { applyLocally: false }
@@ -236,11 +245,10 @@ async function roundWin(team) {
 
   if (!result.committed) {
     throw new Error(
-      "記録済みのラウンド、または試合データがありません"
+      reason || "ROUND WINの更新に失敗しました"
     );
   }
 }
-
 
 $("p3WinA").onclick = () => perform(() => roundWin("A"));
 $("p3WinB").onclick = () => perform(() => roundWin("B"));
