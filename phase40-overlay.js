@@ -33,11 +33,12 @@ function createTimerHUD() {
 
   hud.innerHTML = `
     <svg
-      class="p40-frame"
-      viewBox="0 0 320 110"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
+  class="p40-frame"
+  viewBox="0 0 320 110"
+  preserveAspectRatio="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
 
       <!-- TEAM A PANEL -->
 
