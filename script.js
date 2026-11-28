@@ -35,13 +35,20 @@ function setText(id, value) {
 
 /* PHASE 3.5 - CUSTOM PLAYER ICON */
 
+
+/* PHASE 3.5 - CUSTOM PLAYER ICON FIX */
+
 function renderRoster(id, players = []) {
   const root = $(id);
   if (!root) return;
 
   root.replaceChildren();
 
-  players.slice(0, 5).forEach(player => {
+  const playerList = Array.isArray(players)
+    ? players
+    : Object.values(players || {});
+
+  playerList.slice(0, 5).forEach(player => {
     const card = document.createElement("div");
     card.className = "player";
 
@@ -50,23 +57,34 @@ function renderRoster(id, players = []) {
         ? player.iconUrl.trim()
         : "";
 
-    if (
-      iconUrl &&
-      /^https:\/\/[^ ]+$/i.test(iconUrl)
-    ) {
+    if (iconUrl && /^https:\/\//i.test(iconUrl)) {
       const icon = document.createElement("img");
+
       icon.className = "p35-player-icon";
-      icon.src = iconUrl;
       icon.alt = "";
-      icon.referrerPolicy = "no-referrer";
+      icon.loading = "eager";
+      icon.decoding = "async";
+
+      icon.onload = () => {
+        icon.style.display = "block";
+        card.classList.add("p35-has-icon");
+      };
 
       icon.onerror = () => {
-        icon.remove();
+        console.warn(
+          "Observer X: アイコン読み込み失敗",
+          player?.name,
+          iconUrl
+        );
+
+        icon.style.display = "none";
         card.classList.remove("p35-has-icon");
       };
 
-      card.classList.add("p35-has-icon");
       card.appendChild(icon);
+      card.classList.add("p35-has-icon");
+
+      icon.src = iconUrl;
     }
 
     const content = document.createElement("div");
@@ -86,6 +104,7 @@ function renderRoster(id, players = []) {
     root.appendChild(card);
   });
 }
+
 
 function renderMatch(match) {
   if (!match?.teamA || !match?.teamB) return;
