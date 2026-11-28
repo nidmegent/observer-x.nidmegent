@@ -520,3 +520,78 @@
     animation: none;
   }
 }
+
+
+/* ==========================================
+   PHASE 4.0.2
+   TIMER HUD CONNECTION FIX
+========================================== */
+
+/* タイマー装飾を左右いっぱいに広げる */
+
+#p40TimerHUD {
+  width: 320px;
+  height: 110px;
+}
+
+/* SVGの縦横比による左右の余白を解消 */
+
+#p40TimerHUD .p40-frame {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+}
+
+/* MAP WINS背景との接続部分 */
+
+#p40TimerHUD::before,
+#p40TimerHUD::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+
+  width: 36px;
+  height: 100px;
+
+  background: var(--panel, #080e18);
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+#p40TimerHUD::before {
+  left: 0;
+}
+
+#p40TimerHUD::after {
+  right: 0;
+}
+
+
+/* ==========================================
+   TOP BAR - TIMER AREA CUTOUT
+========================================== */
+
+/* タイマー部分だけ背景バーを透明にする */
+
+#stage::before {
+  background: linear-gradient(
+    to right,
+
+    rgba(5, 10, 18, .68) 0px,
+    rgba(5, 10, 18, .68) 800px,
+
+    transparent 800px,
+    transparent 1120px,
+
+    rgba(5, 10, 18, .68) 1120px,
+    rgba(5, 10, 18, .68) 1920px
+  );
+}
