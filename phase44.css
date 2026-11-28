@@ -1,0 +1,545 @@
+
+/* ==========================================
+   OBSERVER X - PHASE 4.4.1
+   ADMIN CONTROL CENTER
+========================================== */
+
+:root {
+  --p44-bg: #080e18;
+  --p44-sidebar: #101a28;
+  --p44-panel: #121e2c;
+  --p44-line: #293e50;
+  --p44-text: #f3f6fa;
+  --p44-muted: #8299ad;
+  --p44-cyan: #35d3e3;
+  --p44-red: #ff5369;
+  --p44-sidebar-width: 250px;
+  --p44-header-height: 92px;
+}
+
+/* ===== BASE ===== */
+
+body.p44-admin {
+  background: var(--p44-bg);
+  color: var(--p44-text);
+  min-height: 100vh;
+}
+
+body.p44-admin > header {
+  padding: 24px 32px;
+  background: var(--p44-sidebar);
+}
+
+body.p44-admin.p44-signed-in > header {
+  display: none;
+}
+
+body.p44-admin.p44-signed-in > main {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== LOGIN ===== */
+
+body.p44-admin #loginPanel {
+  max-width: 440px;
+  margin: 70px auto;
+  padding: 32px;
+  background: var(--p44-panel);
+  border: 1px solid var(--p44-line);
+  border-top: 4px solid var(--p44-cyan);
+  border-radius: 6px;
+}
+
+body.p44-admin #loginForm {
+  display: grid;
+  gap: 14px;
+}
+
+body.p44-admin #loginForm button {
+  min-height: 46px;
+  background: #185765;
+}
+
+/* ===== APPLICATION SHELL ===== */
+
+#p44Shell {
+  min-height: 100vh;
+}
+
+#p44Sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--p44-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  background: var(--p44-sidebar);
+  border-right: 1px solid var(--p44-line);
+  overflow-y: auto;
+  z-index: 100;
+}
+
+/* ===== BRAND ===== */
+
+.p44-sidebar-brand {
+  padding: 30px 22px;
+  border-bottom: 1px solid var(--p44-line);
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.p44-sidebar-brand strong {
+  color: var(--p44-cyan);
+}
+
+.p44-sidebar-brand small {
+  display: block;
+  margin-top: 8px;
+  color: var(--p44-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.p44-nav-caption {
+  padding: 25px 20px 10px;
+  color: #657f95;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* ===== NAVIGATION ===== */
+
+#p44Navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+#p44Navigation .p44-nav-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  min-height: 61px;
+  padding: 12px;
+  text-align: left;
+  color: #a8bbcc;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition:
+    background .18s ease,
+    color .18s ease;
+}
+
+#p44Navigation .p44-nav-button:hover {
+  background: #1b2b3a;
+  color: white;
+}
+
+#p44Navigation .p44-nav-button.is-active {
+  color: var(--p44-cyan);
+  background: #163441;
+  border-color: #245362;
+}
+
+.p44-nav-button.is-active::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 3px;
+  background: var(--p44-cyan);
+  box-shadow: 0 0 10px #35d3e366;
+}
+
+.p44-nav-icon {
+  flex: 0 0 25px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.p44-nav-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.p44-nav-label strong {
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.p44-nav-label small {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--p44-muted);
+}
+
+/* ===== SIDEBAR FOOTER ===== */
+
+.p44-sidebar-footer {
+  margin-top: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #61798f;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.p44-sidebar-footer strong {
+  color: #9eb4c7;
+  font-size: 12px;
+}
+
+/* ===== WORKSPACE ===== */
+
+#p44Workspace {
+  min-width: 0;
+  min-height: 100vh;
+  margin-left: var(--p44-sidebar-width);
+}
+
+#p44Topbar {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  min-height: var(--p44-header-height);
+  padding: 18px 28px;
+  background: #101a28;
+  border-bottom: 1px solid var(--p44-line);
+}
+
+.p44-eyebrow {
+  margin-bottom: 7px;
+  color: var(--p44-cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#p44PageTitle {
+  margin: 0;
+  font-size: 23px;
+  letter-spacing: 1px;
+}
+
+#p44PageDescription {
+  margin: 5px 0 0;
+  color: var(--p44-muted);
+  font-size: 12px;
+}
+
+/* ===== CONNECTION ===== */
+
+#p44ConnectionArea .toolbar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+}
+
+#p44ConnectionArea #connection {
+  color: var(--p44-cyan);
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+#p44ConnectionArea #logout {
+  background: #402631;
+  border: 1px solid #754050;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* ===== PAGES ===== */
+
+#p44Pages {
+  padding: 26px;
+}
+
+.p44-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  min-width: 0;
+}
+
+.p44-page[hidden] {
+  display: none !important;
+}
+
+/* ===== EXISTING PANEL REDESIGN ===== */
+
+#p44Pages .p44-page > .panel,
+#p44Pages .p44-page > section,
+#p44Pages .p44-page > div:not(.teams) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  background: var(--p44-panel);
+  border: 1px solid var(--p44-line);
+  border-top: 3px solid var(--p44-cyan);
+  border-radius: 6px;
+}
+
+#p44Pages .teams {
+  margin: 0;
+}
+
+#p44Pages .teams > .panel {
+  margin: 0;
+  background: var(--p44-panel);
+  border-radius: 6px;
+}
+
+#p44Pages h2 {
+  letter-spacing: .7px;
+}
+
+#p44Pages input:not([type="range"]),
+#p44Pages select {
+  border-radius: 4px;
+}
+
+.p44-panel-heading {
+  margin-bottom: 18px;
+}
+
+.p44-panel-heading > span {
+  color: var(--p44-cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.p44-panel-heading h2 {
+  margin: 7px 0 0;
+  font-size: 20px;
+}
+
+/* ===== MATCH CONTROL ===== */
+
+#p44Page-match {
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+}
+
+#p44Page-match #p44ScorePanel {
+  grid-column: 1 / -1;
+}
+
+#p44ScoreGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.p44-score-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: #0c1623;
+  border: 1px solid var(--p44-line);
+  border-radius: 4px;
+}
+
+.p44-team-a {
+  border-top: 3px solid var(--p44-cyan);
+}
+
+.p44-team-b {
+  border-top: 3px solid var(--p44-red);
+}
+
+.p44-team-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.p44-team-a .p44-team-tag,
+#p44TeamAName,
+#p44ScoreA strong {
+  color: var(--p44-cyan);
+}
+
+.p44-team-b .p44-team-tag,
+#p44TeamBName,
+#p44ScoreB strong {
+  color: var(--p44-red);
+}
+
+#p44TeamAName,
+#p44TeamBName {
+  font-size: 19px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+#p44TeamASide,
+#p44TeamBSide {
+  color: var(--p44-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#p44ScoreGrid .score-control {
+  padding: 10px 0;
+  gap: 22px;
+}
+
+#p44ScoreGrid .score-control strong {
+  min-width: 65px;
+  font-size: 64px;
+  text-align: center;
+}
+
+#p44ScoreGrid .score-control button {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 24px;
+}
+
+#p44MatchInfo {
+  margin-top: 18px;
+  color: #a6b8ca;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* ===== SYSTEM ===== */
+
+.p44-system-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.p44-resolution {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding-top: 18px;
+  color: var(--p44-muted);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+#p44SystemStatus {
+  color: var(--p44-cyan);
+  font-size: 12px;
+}
+
+/* ===== STATUS ===== */
+
+#p44StatusArea {
+  padding: 0 26px 20px;
+}
+
+#p44StatusArea #status {
+  margin: 0;
+  color: var(--p44-cyan);
+  font-size: 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1150px) {
+  :root {
+    --p44-sidebar-width: 215px;
+  }
+
+  #p44Page-match {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #p44Topbar {
+    padding: 16px 20px;
+  }
+
+  #p44Pages {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --p44-sidebar-width: 60px;
+  }
+
+  .p44-sidebar-brand {
+    padding: 22px 0;
+    text-align: center;
+  }
+
+  .p44-sidebar-brand > span,
+  .p44-sidebar-brand small,
+  .p44-nav-caption,
+  .p44-nav-label,
+  .p44-sidebar-footer {
+    display: none;
+  }
+
+  #p44Navigation {
+    padding: 12px 5px;
+  }
+
+  #p44Navigation .p44-nav-button {
+    justify-content: center;
+    padding: 8px;
+    min-height: 48px;
+  }
+
+  #p44Topbar {
+    position: relative;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #p44PageTitle {
+    font-size: 17px;
+  }
+
+  #p44Pages {
+    padding: 12px;
+  }
+
+  #p44ScoreGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #p44Pages .teams {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #p44ConnectionArea .toolbar {
+    flex-wrap: wrap;
+  }
+}
