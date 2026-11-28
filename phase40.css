@@ -9,7 +9,7 @@
   /* TIMER FRAME */
 
   --p40-width: 320px;
-  --p40-height: 82px;
+  --p40-height: 100px;
   --p40-top: 0px;
   --p40-center-x: 960px;
 
@@ -22,7 +22,7 @@
   /* SPIKE STATUS */
 
   --p40-spike-y: 123px;
-  --p40-planted-y: 119px;
+  --p40-planted-y: 147px;
 
   /* MAP INFORMATION */
 
