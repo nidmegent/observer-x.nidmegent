@@ -607,3 +607,24 @@
 #p40TimerHUD::after {
   background: #080e18 !important;
 }
+
+
+/* TIMER INNER FRAME */
+#p40TimerHUD .p40-frame-panel:nth-of-type(1) {
+  d: path("M0 0 H95 L115 20 V70 L130 100 H160 V110 H90 L0 82 Z");
+}
+#p40TimerHUD .p40-frame-panel:nth-of-type(2) {
+  d: path("M320 0 H225 L205 20 V70 L190 100 H160 V110 H230 L320 82 Z");
+}
+#p40TimerHUD .p40-line-a {
+  d: path("M0 2 H94 L113 21 V71 L130 102 H160");
+}
+#p40TimerHUD .p40-line-b {
+  d: path("M320 2 H226 L207 21 V71 L190 102 H160");
+}
+#p40TimerHUD .p40-detail:nth-of-type(7) {
+  d: path("M10 12 H88 L103 27 V64");
+}
+#p40TimerHUD .p40-detail:nth-of-type(9) {
+  d: path("M310 12 H232 L217 27 V64");
+}
