@@ -231,55 +231,33 @@ function initializeP44() {
       .appendChild(originalScoreB);
   }
 
-  /* ===== EXISTING PHASE PANELS ===== */
+  /* ===== EXISTING PHASE PANELS / FIX ===== */
 
-  const panelRoutes = {
-    p3Panel: "match",
-    p32Panel: "match",
-    p33Panel: "match",
-    p34Panel: "match",
-    p35Panel: "icons",
-    p36Panel: "hud",
-    p37Panel: "theme",
-    p38Panel: "stats",
-    p39Panel: "match",
-    p43Panel: "history"
-  };
+  const panelRoutes = [
+    [".phase3-panel", "match"],
+    ["#p34AdminPanel", "match"],
+    ["#p39Panel", "match"],
+    [".p32-panel", "match"],
+    [".p33-panel", "match"],
+
+    ["#p35Panel", "icons"],
+    ["#p36Panel", "hud"],
+    ["#p37Panel", "theme"],
+    ["#p38Panel", "stats"],
+    ["#p43Panel", "history"]
+  ];
 
   function collectPhasePanels() {
-    for (const [id, key] of Object.entries(panelRoutes)) {
-      moveToPage(document.getElementById(id), key);
-    }
+    for (const [selector, key] of panelRoutes) {
+      const element = document.querySelector(selector);
 
-    // IDが異なる既存Phaseパネルにも対応
-    const candidates = document.querySelectorAll(
-      "section[id], div[id]"
-    );
-
-    for (const element of candidates) {
-      if (!/^p\d+.*panel$/i.test(element.id)) {
+      if (!element || !pageMap[key]) {
         continue;
       }
 
-      if (element.id.startsWith("p44")) {
-        continue;
+      if (element.parentElement !== pageMap[key]) {
+        pageMap[key].appendChild(element);
       }
-
-      if (element.closest(".p44-page")) {
-        continue;
-      }
-
-      const id = element.id.toLowerCase();
-
-      let key = "match";
-
-      if (id.startsWith("p35")) key = "icons";
-      else if (id.startsWith("p36")) key = "hud";
-      else if (id.startsWith("p37")) key = "theme";
-      else if (id.startsWith("p38")) key = "stats";
-      else if (id.startsWith("p43")) key = "history";
-
-      moveToPage(element, key);
     }
   }
 
