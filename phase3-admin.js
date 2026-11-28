@@ -65,8 +65,9 @@ panel.innerHTML = `
       </button>
     </div>
     <p class="p3-help">
-      約5秒間表示します。スコアは自動加算しません。
-    </p>
+  勝利演出・スコア加算・ラウンド履歴記録・
+  次ラウンドへの進行を自動で行います。
+</p>
   </div>
 
   <div class="p3-section">
@@ -179,8 +180,18 @@ async function roundWin(team) {
     throw new Error("初期データがありません");
   }
 
+  if (!["A", "B"].includes(team)) {
+    throw new Error("勝利チームが不正です");
+  }
+
   const id = crypto.randomUUID();
   const now = Date.now();
+
+  // 操作開始時点のラウンド番号
+  const expectedRound =
+    Math.max(0, Math.trunc(Number(match.teamA.score) || 0)) +
+    Math.max(0, Math.trunc(Number(match.teamB.score) || 0)) +
+    1;
 
   let reason = "";
 
@@ -202,27 +213,54 @@ async function roundWin(team) {
 
       const round = scoreA + scoreB + 1;
 
+      // 他の操作によるスコア変更を検出
+      if (round !== expectedRound) {
+        reason = "ラウンドが更新されています";
+        return;
+      }
+
+      // 演出中の連続操作を防止
+      if (
+        value.roundEvent?.type === "roundWin" &&
+        Number(value.roundEvent.expiresAt) > now
+      ) {
+        reason = "ROUND WIN演出中です";
+        return;
+      }
+
       const history = {
         ...(value.roundHistory || {})
       };
 
-      // 未記録の場合のみラウンド履歴を追加
+      // 別チームで記録済みの場合は停止
+      if (
+        history[round] &&
+        history[round].team !== team
+      ) {
+        reason =
+          `ROUND ${round} は別チームで記録済みです`;
+        return;
+      }
+
+      // ラウンド履歴を記録
       if (!history[round]) {
         history[round] = {
           team,
           round,
           recordedAt: now
         };
-      } else if (history[round].team !== team) {
-        reason =
-          `ROUND ${round} は別チームで記録済みです。` +
-          "ROUND HISTORYから修正してください。";
-        return;
       }
 
       value.roundHistory = history;
 
-      // 記録済みでも同じチームの演出は再生可能
+      // 勝利チームのスコアを自動加算
+      if (team === "A") {
+        value.teamA.score = scoreA + 1;
+      } else {
+        value.teamB.score = scoreB + 1;
+      }
+
+      // ROUND WIN演出
       value.roundEvent = {
         id,
         type: "roundWin",
@@ -236,6 +274,22 @@ async function roundWin(team) {
         holder: "none",
         site: "A"
       };
+
+      // 全プレイヤーをALIVEに戻す
+      // KILLS / DEATHS / ASSISTSは保持
+      value.playerStats = value.playerStats || {};
+
+      for (const teamKey of ["teamA", "teamB"]) {
+        value.playerStats[teamKey] =
+          value.playerStats[teamKey] || {};
+
+        for (let i = 0; i < 5; i++) {
+          value.playerStats[teamKey][i] = {
+            ...(value.playerStats[teamKey][i] || {}),
+            alive: true
+          };
+        }
+      }
 
       reason = "";
       return value;
