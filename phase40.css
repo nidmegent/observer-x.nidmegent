@@ -592,3 +592,18 @@
     rgba(5, 10, 18, .68) 1920px
   );
 }
+
+/* ==========================================
+   TIMER HUD - SOLID BACKGROUND
+========================================== */
+
+/* タイマーフレームの背景 */
+#p40TimerHUD .p40-frame-panel {
+  fill: #080e18 !important;
+}
+
+/* 左右の接続部分の背景 */
+#p40TimerHUD::before,
+#p40TimerHUD::after {
+  background: #080e18 !important;
+}
